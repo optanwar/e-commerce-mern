@@ -37,7 +37,7 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 // Get single order => /api/v1/order/:id
 
 exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
-    const order = await Order.findById(req.params._id).populate('user', 'name email');
+    const order = await Order.findById(req.params.id).populate('user', 'name email');
     if (!order) {
         return next(new ErrorHandler('No Order found with this ID', 404));
     }
@@ -58,6 +58,71 @@ exports.myOrders = catchAsyncErrors(async (req, res, next) => {
     });
 }
 );
+
+
+// get all order --admin
+
+exports.allOrders = catchAsyncErrors(async (req, res, next) => {
+    const orders = await Order.find();
+    let totalAmount = 0;
+    orders.forEach(order => {
+        totalAmount += order.totalPrice;
+    });
+    res.status(200).json({
+        success: true,
+        totalAmount,
+        orders,
+    });
+}
+);
+
+// update / process order --admin
+
+exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+        return next(new ErrorHandler('No Order found with this ID', 404));
+    }
+
+    if (order.orderStatus === 'Delivered') {
+        return next(new ErrorHandler('You have already delivered this order', 400));
+    }
+
+    order.orderItems.forEach(async item => {
+        await updateStock(item.product, item.quantity);
+    });
+
+    order.orderStatus = req.body.status;
+
+    if (req.body.status === 'Delivered') {
+        order.deliveredAt = Date.now();
+    }
+    await order.save({ validateBeforeSave: false });
+    res.status(200).json({
+        success: true
+    });
+})
+
+
+async function updateStock(id, quantity) {
+    const product = await Product.findById(id);
+    product.stock = product.stock - quantity;
+    await product.save({ validateBeforeSave: false });
+}
+
+
+// Delete order => /api/v1/admin/order/:id
+exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+        return next(new ErrorHandler('No Order found with this ID', 404));
+    }
+    await order.deleteOne();
+    res.status(200).json({
+        success: true
+    });
+    });
+
 
 
 
