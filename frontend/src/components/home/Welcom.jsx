@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const WelcomeSection = () => {
   // State to store the current background color
-  const [bgColor, setBgColor] = useState('bg-gradient-to-r from-green-400 via-blue-500 to-purple-600');
+  const [bgColor, setBgColor] = useState(
+    "bg-gradient-to-r from-green-400 via-blue-500 to-purple-600"
+  );
 
   useEffect(() => {
     // Array of gradient colors for the background
     const colors = [
-      'bg-gradient-to-r from-green-400 via-blue-500 to-purple-600',
-      'bg-gradient-to-r from-red-500 via-yellow-500 to-pink-500',
-      'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500',
-      'bg-gradient-to-r from-teal-400 via-orange-500 to-lime-600',
-      'bg-gradient-to-r from-blue-400 via-teal-500 to-green-600',
+      "bg-gradient-to-r from-green-400 via-blue-500 to-purple-600",
+      "bg-gradient-to-r from-red-500 via-yellow-500 to-pink-500",
+      "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500",
+      "bg-gradient-to-r from-teal-400 via-orange-500 to-lime-600",
+      "bg-gradient-to-r from-blue-400 via-teal-500 to-green-600",
     ];
 
     // Change the background color every 5 seconds
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * colors.length);
       setBgColor(colors[randomIndex]);
-    }, 5000); // 5000ms = 5 seconds
+    }, 2500); // 5000ms = 5 seconds
 
     // Cleanup the interval when the component unmounts
     return () => clearInterval(interval);
@@ -32,7 +34,7 @@ const WelcomeSection = () => {
       <div className="absolute inset-0 bg-black opacity-40"></div>
 
       {/* Content Section */}
-      <div className="relative z-10 space-y-8 max-w-4xl mx-auto">
+      <div className="relative z-10 space-y-8 container mx-auto">
         <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight">
           Welcome to EcoCommerce
         </h1>

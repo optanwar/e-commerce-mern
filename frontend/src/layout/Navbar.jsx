@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-30">
-      <nav className="max-w-7xl mx-auto px-6 sm:px-10 py-3 flex justify-between items-center">
+      <nav className="container mx-auto px-6 sm:px-10 py-3 flex justify-between items-center">
         {/* Logo */}
         <div className="flex-shrink-0">
           <Link to="/" className="text-2xl font-semibold text-blue-600 hover:text-blue-700 transition">
@@ -55,7 +55,7 @@ const Navbar = () => {
           {/* Cart Icon */}
           <button className="relative text-gray-800 hover:text-blue-600">
             <FaShoppingCart className="w-6 h-6" />
-            <span className="absolute top-0 right-0 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">
+            <span className="absolute -top-1.5 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">
               3
             </span>
           </button>
@@ -75,7 +75,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white shadow-md p-4 space-y-4">
+        <div className="container mx-auto md:hidden bg-white shadow-md p-4 space-y-4">
           <Link
             to="/"
             className="block text-gray-800 hover:text-blue-600 font-semibold"
