@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../../redux/slice/productSlice';
 import { FaHeart } from "react-icons/fa";
 
 const ProductSection = () => {
@@ -76,6 +78,17 @@ const ProductSection = () => {
         "Stylish sunglasses made from recycled plastic to reduce waste.",
     },
   ];
+
+
+  const dispatch = useDispatch();
+  const {data , loading , error} = useSelector((state) => state);
+console.log(data?.products,5454)
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <section className="py-16 bg-gray-50">

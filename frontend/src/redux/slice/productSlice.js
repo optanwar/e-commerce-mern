@@ -1,40 +1,42 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axiosInstance from '../../api/axiosInstance';
+import axios from 'axios';
 
-const userSlice = createSlice({
-  name: 'user',
+const productSlice = createSlice({
+  name: 'product',
   initialState: {
     data: null,
     loading: false,
     error: null,
   },
   reducers: {
-    fetchUserStart(state) {
+    fetchProductStart(state) {
       state.loading = true;
       state.error = null;
     },
-    fetchUserSuccess(state, action) {
+    fetchProductSuccess(state, action) {
       state.loading = false;
       state.data = action.payload;
     },
-    fetchUserFailure(state, action) {
+    fetchProductFailure(state, action) {
       state.loading = false;
       state.error = action.payload;
     },
   },
 });
 
-export const { fetchUserStart, fetchUserSuccess, fetchUserFailure } = userSlice.actions;
+export const { fetchProductStart, fetchProductSuccess, fetchProductFailure } = productSlice.actions;
 
-// Async Thunk for Fetching User
-export const fetchUser = () => async (dispatch) => {
-  dispatch(fetchUserStart());
+// Async Thunk for Fetching Products
+export const fetchProducts = () => async (dispatch) => {
+  dispatch(fetchProductStart());
   try {
-    const response = await axiosInstance.get('/users/1'); // Use only the endpoint
-    dispatch(fetchUserSuccess(response.data));
+    const response = await axiosInstance.get('/products'); // Replace with your actual endpoint
+   
+    dispatch(fetchProductSuccess(response.data));
   } catch (error) {
-    dispatch(fetchUserFailure(error.message));
+    dispatch(fetchProductFailure(error.message));
   }
 };
 
-export default userSlice.reducer;
+export default productSlice.reducer;
