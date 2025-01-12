@@ -1,10 +1,16 @@
-import { combineReducers } from 'redux';
-import userReducer from './slice/userSlice';
-import productReducer from './slice/productSlice';
+import { combineReducers } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { productReducer } from './slice/productSlice';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['product'], // Add slices you want to persist
+};
 
 const rootReducer = combineReducers({
-  user: userReducer,
-  products:productReducer, // Add more reducers here
+  product: productReducer,
 });
 
-export default rootReducer;
+export default persistReducer(persistConfig, rootReducer);

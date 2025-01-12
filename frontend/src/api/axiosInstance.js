@@ -1,32 +1,28 @@
 import axios from 'axios';
 
-// Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL, // Use the base URL from the environment variables
+  baseURL: 'https://api.example.com', // Replace with your API base URL
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Optional: Add interceptors for requests and responses
+// Add interceptors if needed
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Modify config (e.g., add auth token) before request is sent
-    // config.headers.Authorization = `Bearer ${token}`;
+    // Modify request if necessary (e.g., add auth token)
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
-    // Handle response errors globally
-    console.error('API Error:', error.response || error.message);
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 export default axiosInstance;

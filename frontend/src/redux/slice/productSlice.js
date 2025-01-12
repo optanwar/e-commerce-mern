@@ -1,42 +1,42 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice , createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../api/axiosInstance';
-import axios from 'axios';
 
-const productSlice = createSlice({
-  name: 'product',
+// Async Thunk for API call
+export const fetchProducts = createAsyncThunk(
+  'products',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get('/products');
+      return response.products;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || 'An error occurred');
+    }
+  }
+);
+
+const productsSlice = createSlice({
+  name: 'products',
   initialState: {
-    data: null,
+    data: [],
     loading: false,
     error: null,
   },
-  reducers: {
-    fetchProductStart(state) {
-      state.loading = true;
-      state.error = null;
-    },
-    fetchProductSuccess(state, action) {
-      state.loading = false;
-      state.data = action.payload;
-    },
-    fetchProductFailure(state, action) {
-      state.loading = false;
-      state.error = action.payload;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
+      .addCase(fetchProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
-export const { fetchProductStart, fetchProductSuccess, fetchProductFailure } = productSlice.actions;
-
-// Async Thunk for Fetching Products
-export const fetchProducts = () => async (dispatch) => {
-  dispatch(fetchProductStart());
-  try {
-    const response = await axiosInstance.get('/products'); // Replace with your actual endpoint
-   
-    dispatch(fetchProductSuccess(response.data));
-  } catch (error) {
-    dispatch(fetchProductFailure(error.message));
-  }
-};
-
-export default productSlice.reducer;
+export const productReducer = productsSlice.reducer;
