@@ -1,15 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom/client'; // Use the correct import for React 18
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
 import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+// Get the root DOM element
+const rootElement = document.getElementById('root');
+
+// Create a root using ReactDOM.createRoot
+const root = ReactDOM.createRoot(rootElement);
+
+// Render the application
 root.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <App />
-    </PersistGate>
-  </Provider>
+  <React.StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
+  </React.StrictMode>
 );

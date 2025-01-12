@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../../redux/slice/productSlice';
+import { fetchProducts } from '../../redux/featuresSlice/productSlice';
+
 import { FaHeart } from "react-icons/fa";
 
 const ProductSection = () => {
   const dispatch = useDispatch();
-  const { data, loading, error } = useSelector((state) => state);
+  const { products, loading, error } = useSelector((state) => state.products);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -14,7 +15,9 @@ const ProductSection = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  console.log(data)
+
+
+  console.log(products.products,4343)
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -28,7 +31,7 @@ const ProductSection = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {data.map((product) => (
+          {products?.products?.map((product) => (
             <div
               key={product.id}
               className="bg-white rounded-lg shadow-lg overflow-hidden hover:scale-105 transform transition duration-300 ease-in-out relative"
