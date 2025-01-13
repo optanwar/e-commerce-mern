@@ -24,7 +24,7 @@ const Navbar = () => {
             Home
           </Link>
           <Link
-            to="/shop"
+            to="/products"
             className="text-gray-800 hover:text-blue-600 font-semibold transition duration-300"
           >
             Shop
@@ -83,7 +83,7 @@ const Navbar = () => {
             Home
           </Link>
           <Link
-            to="/shop"
+            to="/products"
             className="block text-gray-800 hover:text-blue-600 font-semibold"
           >
             Shop

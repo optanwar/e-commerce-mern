@@ -36,7 +36,7 @@ exports.getAllProducts = catchAsyncErrors(async (req, res, next) => {
 // Get product details
 exports.getProductDetails = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
-  const productsCount = await Product.countDocuments();
+ 
   if (!product) {
     return next(new ErrorHandler("Product not found", 404));
   }
@@ -44,7 +44,7 @@ exports.getProductDetails = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     product,
-    productsCount,
+   
   });
 });
 
