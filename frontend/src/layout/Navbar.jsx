@@ -41,16 +41,14 @@ const Navbar = () => {
           >
             Contact
           </Link>
+          <Link
+            to="/contact"
+            className="text-gray-800 hover:text-blue-600 font-semibold transition duration-300"
+          >
+ <FaSearch className="absolute top-3 left-3 text-gray-500 w-5 h-5" />
+          </Link>
 
-          {/* Search Bar */}
-          <div className="relative">
-            <input
-              type="text"
-              className="bg-gray-100 border border-gray-300 rounded-lg py-2 pl-10 pr-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Search..."
-            />
-            <FaSearch className="absolute top-3 left-3 text-gray-500 w-5 h-5" />
-          </div>
+          
 
           {/* Cart Icon */}
           <button className="relative text-gray-800 hover:text-blue-600">
