@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.x.x",
+    "@emotion/styled": "^11.x.x",
+    "@mui/material": "^5.x.x",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
@@ -10,6 +13,7 @@
     "react-dom": "^19.0.0",
     "react-helmet": "^6.1.0",
     "react-icons": "^5.4.0",
+    "react-js-pagination": "^3.0.3",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.1",
     "react-scripts": "5.0.1",
@@ -19,10 +23,7 @@
     "redux-thunk": "^3.1.0",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.15.10",
-    "webfontloader": "^1.6.28",
-    "@mui/material": "^5.x.x",
-    "@emotion/react": "^11.x.x",
-    "@emotion/styled": "^11.x.x"
+    "webfontloader": "^1.6.28"
   },
   "scripts": {
     "start": "react-scripts start",

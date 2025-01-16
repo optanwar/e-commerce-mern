@@ -8,6 +8,9 @@ import WebFont from 'webfontloader';
 import { useEffect } from 'react';
 import Products from './components/products/Products';
 
+import About from './components/about/About';
+import LoginSignUp from './components/user/LoginSignUp';
+
 
 function App() {
   useEffect(() => {
@@ -23,6 +26,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/products" element={<Products />} />
+    
+        <Route path="/about"  element={<About />} />
+        <Route path="/login"  element={<LoginSignUp />} />
  
       </Routes>
       <Footer />
