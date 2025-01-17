@@ -1,21 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser, registerUser } from "../../redux/featuresSlice/userSlice";
+import Loader from "../../layout/Loader";
+import { useNavigate } from "react-router-dom";
 
 const AuthForms = () => {
   const [formType, setFormType] = useState("login"); // "login", "forgotPassword", "register"
+  const { loading, error, token } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
 
   const handleLogin = (e) => {
     e.preventDefault();
-    alert("Login successful!");
+    dispatch(loginUser({ email, password }))
+      .unwrap()
+      .then((response) => {
+        if (response.success === true && response.token) {
+          navigate("/");
+        }
+        console.log("User data:", response);
+      })
+      .catch((err) => {
+        alert(err || "Failed to log in. Please try again.");
+      });
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    dispatch(registerUser({ name, email, password }))
+      .unwrap()
+      .then((response) => {
+        if (response.success === true) {
+          alert("Registration successful! Please log in.");
+          setFormType("login");
+        }
+      })
+      .catch((err) => {
+        alert(err || "Registration failed. Please try again.");
+      });
   };
 
   const handlePasswordReset = (e) => {
     e.preventDefault();
     alert("Password reset email sent!");
-  };
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-    alert("Registration successful!");
   };
 
   return (
@@ -38,6 +75,8 @@ const AuthForms = () => {
                   type="email"
                   id="email"
                   placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   required
                 />
@@ -53,6 +92,8 @@ const AuthForms = () => {
                   type="password"
                   id="password"
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   required
                 />
@@ -86,6 +127,80 @@ const AuthForms = () => {
           </>
         )}
 
+        {formType === "register" && (
+          <>
+            <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
+              Create an Account
+            </h1>
+            <form onSubmit={handleRegister}>
+              <div className="mb-4">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-600 mb-1"
+                >
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  placeholder="Enter your full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="register-email"
+                  className="block text-sm font-medium text-gray-600 mb-1"
+                >
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="register-email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="register-password"
+                  className="block text-sm font-medium text-gray-600 mb-1"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="register-password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition mb-4"
+              >
+                Register
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormType("login")}
+                className="w-full bg-gray-200 text-gray-700 py-2 rounded-lg font-semibold hover:bg-gray-300 transition"
+              >
+                Back to Login
+              </button>
+            </form>
+          </>
+        )}
+
         {formType === "forgotPassword" && (
           <>
             <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
@@ -112,74 +227,6 @@ const AuthForms = () => {
                 className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition mb-4"
               >
                 Send Reset Link
-              </button>
-              <button
-                type="button"
-                onClick={() => setFormType("login")}
-                className="w-full bg-gray-200 text-gray-700 py-2 rounded-lg font-semibold hover:bg-gray-300 transition"
-              >
-                Back to Login
-              </button>
-            </form>
-          </>
-        )}
-
-        {formType === "register" && (
-          <>
-            <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
-              Create an Account
-            </h1>
-            <form onSubmit={handleRegister}>
-              <div className="mb-4">
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-600 mb-1"
-                >
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  placeholder="Enter your full name"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="register-email"
-                  className="block text-sm font-medium text-gray-600 mb-1"
-                >
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="register-email"
-                  placeholder="Enter your email"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="register-password"
-                  className="block text-sm font-medium text-gray-600 mb-1"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="register-password"
-                  placeholder="Enter your password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition mb-4"
-              >
-                Register
               </button>
               <button
                 type="button"
