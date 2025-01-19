@@ -9,7 +9,7 @@ const cloudinary = require('cloudinary');
 
 process.on('uncaughtException', err => {
     console.log(`Error: ${err.message}`);
-    console.log('Shutting down the server due to uncaught exception');
+    console.log('Shutting down the server due to uncaught exceptio');
     process.exit(1);
 })         
 
