@@ -6,6 +6,16 @@ module.exports = (err,  req , res, next) => {
 
     err.message = err.message || "Internal Server Error";
 
+
+    // Wrong Mongoose Object ID Error
+
+    if(err.name === 'CastError'){
+        err.message = 'Resource not found';
+        err = new ErrorHandler(message , 400)
+      
+    }
+
+
     res.status(err.statusCode).json({
         success:false,
         message :err.message,
