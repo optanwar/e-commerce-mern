@@ -13,6 +13,7 @@ app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUopload());
+
 // Route import 
 
 const products = require('./routes/productsRoute');
