@@ -1,4 +1,5 @@
-const Product = require("../module/productModule")
+const Product = require("../module/productModule");
+const ErrorHandler = require("../utils/errorHandler");
 
 
 
@@ -28,6 +29,19 @@ exports.getAllProducts = async (req, res, next)=>{
 }
 
 
+// Get Products details
+exports.getProductDetails = async (req, res, next) => {
+    const product = await Product.findById(req.params.id);
+    if(!product) {
+        return next(new ErrorHandler("Product not found",404));
+}
+
+res.status(200).json({
+    success: true,
+    message: "Product details retrieved successfully",
+    product
+})
+}
 
 // Update product --Admin
 
