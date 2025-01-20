@@ -1,0 +1,49 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# dotenv environment variables file
+.env
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Dependency directories
+bower_components/
+
+# Build directories
+dist/
+build/
+
+# React Native
+# .expo/
+.expo/
+.expo-shared/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.vscode/
+.idea/
+
+# Coverage directory used by testing tools
+coverage/
+
+# Parcel-bundler cache
+.cache/
+
+# Next.js build output
+.next/
+
+# TypeScript
+*.tsbuildinfo
+
+# Miscellaneous
+*.bak
+*.swp
