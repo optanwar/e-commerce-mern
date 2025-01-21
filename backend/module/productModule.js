@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 
-const productSchema = mongoose.Schema({
+const productSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [ true, "Please enter product name"],
@@ -15,14 +15,14 @@ const productSchema = mongoose.Schema({
     price:{
         type:Number,
         required:[true,"Please enter product price"],
-        maxLength:[8, "Price cannot exceed 8 characters"]
+        maxLength:[8, "Price cannot exceed 8 characters"],
+        set: (val) => parseFloat(val) // Ensures that `price` is cast to a number
     },
     rating:{
         type:Number,
         default:0
     },
-    images:[
-        
+    images:[        
         {
             public_id:{
                 type:String,
