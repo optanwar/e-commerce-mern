@@ -9,9 +9,11 @@ app.use(express.json());
 
 // Route Imports 
 
-const product = require("./routes/productRoute")
+const productRoutes = require("./routes/productRoute")
+const userRoutes = require("./routes/userRoute")
 
-app.use("/api/v1", product)
+app.use("/api/v1", productRoutes)
+app.use("/api/v1", userRoutes)
 
 // Middleware for Error
 app.use(errorMiddleware);
