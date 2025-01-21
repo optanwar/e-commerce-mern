@@ -2,9 +2,9 @@ const ErrorHandler = require('../utils/errorHandler');
 
 
 module.exports = (err,  req , res, next) => {
-    err.statusCode = err.statusCode || 500 ;
+  let statusCode = err.statusCode || 500 ;
 
-    err.message = err.message || "Internal Server Error";
+let message = err.message || "Internal Server Error";
 
 
     // Wrong Mongoose Object ID Error
@@ -16,8 +16,8 @@ module.exports = (err,  req , res, next) => {
     }
 
 
-    res.status(err.statusCode).json({
+    res.status(statusCode).json({
         success:false,
-        message :err.message,
+        message :message,
     })
 };
