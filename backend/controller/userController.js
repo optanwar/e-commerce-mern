@@ -264,6 +264,5 @@ exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
         });
         });
 
-  
-
+    
 
