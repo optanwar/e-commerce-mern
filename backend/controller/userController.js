@@ -262,7 +262,8 @@ exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
             success: true,
             message: 'User deleted successfully',
         });
-        }
-        );
+        });
+
+  
 
 

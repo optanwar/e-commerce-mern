@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema({
         maxLength:[8, "Price cannot exceed 8 characters"],
         set: (val) => parseFloat(val) // Ensures that `price` is cast to a number
     },
-    rating:{
+    ratings:{
         type:Number,
         default:0
     },
