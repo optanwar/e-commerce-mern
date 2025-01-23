@@ -51,7 +51,7 @@ const ProductSection = () => {
               className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
             >
               {/* Product Image */}
-              <Link to={`/product/${product._id}`}>
+              <Link to={`/product/${product._id}`}  state={{ id: product._id }}>
               <img
                 src={product.images[0].url}
                 alt={product.name}
@@ -60,7 +60,7 @@ const ProductSection = () => {
               </Link>
               {/* Product Details */}
               <div className="p-6">
-              <Link to={`/product/${product._id}`}>
+              <Link to={`/product/${product._id}`}  state={{ id: product._id }}>
               <h3 className="text-xl font-bold text-gray-900 hover:text-yellow-400 transition-all duration-300">{product.name}</h3></Link>
     
                 <p className="text-sm text-gray-500 mt-2">{product.description}</p>
