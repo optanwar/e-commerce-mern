@@ -1,40 +1,28 @@
-
-
+import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
-import { route } from "./routes";
-import Navbar from "./layout/Navbar"
-import { useEffect } from "react";
-import WebFont from "webfontloader";
+import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
+import { route } from "./routes";
 
-function App() {
-  useEffect(() => {
-    WebFont.load({
-      google: {
-        families: ['Roboto', 'sans-serif']
-      }
-    });
-  }, []);
+const App = () => {
   return (
-    <>
-      <Router basename="/school">
+    <div>
+      <Router>
+        {/* Navbar */}
         <Navbar />
-        <Routes>
-          {route.map((route) => {
-            return (
-              <Route
-                path={route.path}
-                key={route.id}
-                element={route.component}
-              />
-            );
-          })}
-        </Routes>
-        <Footer />
+
+        {/* Route Configuration */}
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            {route.map(({ id, path, component: Component }) => (
+              <Route key={id} path={path} element={<Component />} />
+            ))}
+          </Routes>
+        </Suspense>
+        <Footer/>
       </Router>
-    </>
+    </div>
   );
-}
+};
 
 export default App;

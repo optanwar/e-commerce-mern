@@ -2,7 +2,7 @@ import React from 'react'
 
 const Fotter = () => {
   return (
-    <div>Fotter</div>
+    <div className='mt-20'>Fotter</div>
   )
 }
 
