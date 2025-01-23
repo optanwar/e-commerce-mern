@@ -1,7 +1,13 @@
 
-import { useEffect } from 'react'
-import './App.css'
-import WebFont from 'webfontloader'
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import { route } from "./routes";
+import Navbar from "./layout/Navbar"
+import { useEffect } from "react";
+import WebFont from "webfontloader";
+import Footer from "./layout/Footer";
+
 function App() {
   useEffect(() => {
     WebFont.load({
@@ -10,15 +16,25 @@ function App() {
       }
     });
   }, []);
-
   return (
     <>
-   
-   <h1 className="text-3xl font-bold underline text-red-500">
-      Hello world!
-    </h1>
+      <Router basename="/school">
+        <Navbar />
+        <Routes>
+          {route.map((route) => {
+            return (
+              <Route
+                path={route.path}
+                key={route.id}
+                element={route.component}
+              />
+            );
+          })}
+        </Routes>
+        <Footer />
+      </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
