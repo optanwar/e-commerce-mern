@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const HeroSection = () => {
   const colors = [
-    "bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500",
+    // "bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500",
     // "bg-gradient-to-br from-blue-500 via-teal-400 to-green-500",
     // "bg-gradient-to-br from-red-500 via-orange-400 to-yellow-500",
   ]; // Array of gradient classes

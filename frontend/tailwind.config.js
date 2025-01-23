@@ -2,10 +2,12 @@
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}", // Scans all relevant files for Tailwind classes
   ],
   theme: {
-    extend: {},
+    extend: {}, // Add custom styles here if needed
   },
-  plugins: [],
-}
+  plugins: [
+    require('@tailwindcss/line-clamp'), // Adds the line-clamp plugin for managing text overflow
+  ],
+};
