@@ -12,10 +12,10 @@ const Navbar = () => {
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
-          <a href="#" className="text-3xl font-bold tracking-wide hover:opacity-90">
-            <span className="text-yellow-400">Shop</span>Ease
-          </a>
-
+          <Link to="/" className="text-3xl font-bold tracking-wide hover:opacity-90">
+          <span className="text-yellow-400">Shop</span>Ease
+          </Link>
+        
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
             {["Home", "Shop", "Deals", "Blog", "Contact"].map((item) => (

@@ -119,7 +119,7 @@ const Footer = () => {
 
         {/* Footer Bottom */}
         <div className="mt-12 border-t border-gray-700 pt-4 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Your Company Name. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} ShopEase. All rights reserved.</p>
         </div>
       </div>
     </footer>
