@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaShoppingCart, FaUserCircle, FaBars, FaTimes, FaSearch } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -31,14 +32,15 @@ const Navbar = () => {
           {/* Right Icons */}
           <div className="flex items-center space-x-6">
             {/* Search Icon */}
-            <button className="hover:text-yellow-300 transition-all duration-300">
+            <Link to="/search" className="hover:text-yellow-300 transition-all duration-300">           
               <FaSearch className="text-xl" />
-            </button>
+              </Link>
+      
 
             {/* Cart Icon */}
             <button className="relative hover:text-yellow-300 transition-all duration-300">
               <FaShoppingCart className="text-xl" />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-xs text-white rounded-full px-2 py-1">
+              <span className="absolute -top-2 -right-2 bg-yellow-500 text-xs text-black rounded-full px-1">
                 3
               </span>
             </button>

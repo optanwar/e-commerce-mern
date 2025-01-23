@@ -25,7 +25,7 @@ const HeroSection = () => {
         <div className="lg:w-1/2 text-center lg:text-left space-y-6 md:space-y-8 lg:space-y-10 xl:space-y-12">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-wide">
             Shop the <span className="text-yellow-400">Latest Trends</span> <br />
-            in <span className="underline decoration-wavy decoration-yellow-400">Fashion</span>
+            in <span className="underline  decoration-wavy decoration-yellow-400">Fashion</span>
           </h1>
           <p className="text-lg sm:text-xl text-gray-200">
             Upgrade your wardrobe with premium quality fashion pieces, available at exclusive prices.
