@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaStar, FaPlus, FaMinus, FaShoppingCart } from "react-icons/fa";
+import { FaStar, FaShoppingCart, FaMinus, FaPlus } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const ProductDetails = () => {
@@ -7,21 +7,22 @@ const ProductDetails = () => {
   const product = {
     name: "Amazing Product",
     images: [
-      "https://via.placeholder.com/600x600/FF6347", // Main product image
-      "https://via.placeholder.com/600x600/FFD700", // Thumbnail 1
-      "https://via.placeholder.com/600x600/008080", // Thumbnail 2
-      "https://via.placeholder.com/600x600/8A2BE2", // Thumbnail 3
+      "https://via.placeholder.com/600x600/FF6347",
+      "https://via.placeholder.com/600x600/FFD700",
+      "https://via.placeholder.com/600x600/008080",
+      "https://via.placeholder.com/600x600/8A2BE2",
     ],
     description:
       "This is an amazing product that will solve all your problems. It is of the highest quality and comes with a satisfaction guarantee.",
     price: 49.99,
     inStock: true,
+    rating: 4,
+    reviewsCount: 125,
   };
 
   const [quantity, setQuantity] = useState(1);
-  const [rating, setRating] = useState(4); // Pre-set a rating of 4
-  const [review, setReview] = useState("");
   const [mainImage, setMainImage] = useState(product.images[0]); // Set the first image as the main image
+  const [review, setReview] = useState("");
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
@@ -31,10 +32,6 @@ const ProductDetails = () => {
     if (quantity > 1) {
       setQuantity((prev) => prev - 1);
     }
-  };
-
-  const handleRating = (rate) => {
-    setRating(rate);
   };
 
   const handleReviewChange = (e) => {
@@ -59,105 +56,104 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto p-8 bg-white shadow-xl rounded-lg mt-20">
-      {/* Product Image Gallery */}
-      <div className="flex flex-col md:flex-row md:space-x-8 space-y-6 md:space-y-0">
-        {/* Main Image */}
-        <div className="md:w-1/2 flex justify-center items-center">
-          <img
-            src={mainImage}
-            alt={product.name}
-            className="w-full h-auto object-cover rounded-lg shadow-lg transition duration-300 transform hover:scale-105"
-          />
-        </div>
+    <div className="bg-gray-50 py-12 md:py-24 lg:py-32  xl:py-36"> {/* Added pt-24 to offset navbar */}
+      <div className="container mx-auto px-4">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden md:flex md:flex-row flex-col">
+          {/* Product Image */}
+          <div className="md:w-1/2 flex justify-center p-6">
+            <div className="relative w-full h-full max-w-md">
+              <img
+                src={mainImage}
+                alt="Product"
+                className="w-full h-full object-cover rounded-lg transition-transform duration-300 transform hover:scale-105"
+              />
+            </div>
+          </div>
 
-        {/* Thumbnail Gallery */}
-        <div className="md:w-1/2 flex flex-col md:flex-row md:flex-wrap md:space-x-4 md:space-y-4 space-y-2">
-          {product.images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`Product Thumbnail ${index + 1}`}
-              className="w-20 h-20 object-cover rounded-lg cursor-pointer transition duration-200 transform hover:scale-110"
-              onClick={() => setMainImage(image)} // Set main image on thumbnail click
-            />
-          ))}
-        </div>
-      </div>
+          {/* Product Details */}
+          <div className="md:w-1/2 p-6 flex flex-col justify-between">
+            <h2 className="text-3xl font-semibold text-gray-800">{product.name}</h2>
+            <p className="text-gray-600 mt-2">{product.description}</p>
 
-      {/* Product Details */}
-      <div className="mt-6 md:mt-0 md:w-1/2">
-        <h2 className="text-3xl font-semibold text-gray-800">{product.name}</h2>
-        <p className="text-lg text-gray-600 mt-2">{product.description}</p>
+            {/* Price */}
+            <div className="text-2xl font-semibold text-gray-900 mt-4">
+              ${product.price}
+            </div>
 
-        {/* Product Status */}
-        <div className="text-xl text-green-500 mt-4">
-          {product.inStock ? "In Stock" : "Out of Stock"}
-        </div>
+            {/* Rating */}
+            <div className="flex items-center mt-2">
+              {[...Array(5)].map((_, index) => (
+                <FaStar
+                  key={index}
+                  size={20}
+                  color={index < product.rating ? "#FFD700" : "#E0E0E0"}
+                />
+              ))}
+              <span className="text-gray-600 ml-2">
+                {product.rating} ({product.reviewsCount} reviews)
+              </span>
+            </div>
 
-        {/* Quantity Control */}
-        <div className="flex items-center space-x-4 mt-4">
-          <button
-            onClick={handleDecrement}
-            className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
-          >
-            <FaMinus />
-          </button>
-          <span className="text-lg font-semibold">{quantity}</span>
-          <button
-            onClick={handleIncrement}
-            className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
-          >
-            <FaPlus />
-          </button>
-        </div>
+            {/* Stock Status */}
+            <div className="mt-4 text-lg font-medium text-green-600">
+              {product.inStock ? "In Stock" : "Out of Stock"}
+            </div>
 
-        {/* Product Price */}
-        <div className="text-3xl font-bold text-gray-800 mt-4">
-          ${product.price * quantity}
-        </div>
+            {/* Quantity Selector */}
+            <div className="flex items-center space-x-4 mt-6">
+              <button
+                onClick={handleDecrement}
+                className="bg-gray-200 p-2 rounded-full"
+              >
+                <FaMinus />
+              </button>
+              <span className="text-lg font-medium">{quantity}</span>
+              <button
+                onClick={handleIncrement}
+                className="bg-gray-200 p-2 rounded-full"
+              >
+                <FaPlus />
+              </button>
+            </div>
 
-        {/* Add to Cart Button */}
-        <button className="flex items-center space-x-2 mt-6 bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">
-          <FaShoppingCart />
-          <span>Add to Cart</span>
-        </button>
-      </div>
-
-      {/* Rating */}
-      <div className="mt-8">
-        <h3 className="text-xl font-semibold text-gray-800">Rating:</h3>
-        <div className="flex space-x-2 mt-2">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              onClick={() => handleRating(star)}
-              className={`${
-                rating >= star ? "text-yellow-500" : "text-gray-400"
-              }`}
-            >
-              <FaStar size={24} />
+            {/* Add to Cart Button */}
+            <button className="mt-6 bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 transition">
+              <FaShoppingCart className="inline mr-2" />
+              Add to Cart
             </button>
-          ))}
-        </div>
-      </div>
 
-      {/* Review */}
-      <div className="mt-8">
-        <h3 className="text-xl font-semibold text-gray-800">Write a Review:</h3>
-        <textarea
-          value={review}
-          onChange={handleReviewChange}
-          placeholder="Share your thoughts about this product..."
-          className="w-full mt-2 p-4 border border-gray-300 rounded-lg"
-          rows="4"
-        />
-        <button
-          onClick={handleReviewSubmit}
-          className="mt-4 bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition"
-        >
-          Submit Review
-        </button>
+            {/* Product Image Thumbnails */}
+            <div className="mt-6 flex space-x-4">
+              {product.images.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt="Product Thumbnail"
+                  className="w-16 h-16 object-cover rounded-lg cursor-pointer"
+                  onClick={() => setMainImage(image)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Reviews Section */}
+        <div className="mt-12 bg-white shadow-lg rounded-lg p-6">
+          <h3 className="text-2xl font-semibold text-gray-800">Write a Review</h3>
+          <textarea
+            value={review}
+            onChange={handleReviewChange}
+            placeholder="Share your thoughts about this product..."
+            className="w-full mt-4 p-4 border border-gray-300 rounded-lg"
+            rows="4"
+          />
+          <button
+            onClick={handleReviewSubmit}
+            className="mt-4 bg-yellow-500 text-white py-3 px-6 rounded-lg hover:bg-yellow-600 transition"
+          >
+            Submit Review
+          </button>
+        </div>
       </div>
     </div>
   );
