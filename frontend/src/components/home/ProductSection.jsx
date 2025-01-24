@@ -12,7 +12,9 @@ const ProductSection = () => {
 
  // Dispatch the fetchProducts action when the component mounts
  useEffect(() => {
+
   if (error) {
+    alert('useEffect')
     // Show sweet alert when there is an error
     Swal.fire({
       title: "Error occurred!",
@@ -21,6 +23,7 @@ const ProductSection = () => {
       draggable: true,
     }).then(() => {
       // Dispatch to fetch products after the alert is closed
+     
       dispatch(fetchProducts());
     });
   }

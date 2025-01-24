@@ -49,7 +49,7 @@ const HeroSection = () => {
         {/* Right Content: Hero Image */}
         <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
           <img
-            src="../../../public/vite.svg"
+            src="/vite.svg"
             alt="Fashion"
             className="w-28 lg:w-4/5 rounded-lg transform hover:scale-105 transition-all duration-500"
           />
