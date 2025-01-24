@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaShoppingCart, FaUserCircle, FaBars, FaTimes, FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
+import NavItems from '../json/navItem.json'
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -18,13 +18,13 @@ const Navbar = () => {
         
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
-            {["Home", "Shop", "Deals", "Blog", "Contact"].map((item) => (
+            {NavItems.map((item) => (
               <a
-                key={item}
-                href="#"
+                key={item.id}
+                href={item.url}
                 className="text-lg font-medium hover:text-yellow-300 transition-all duration-300"
               >
-                {item}
+                {item.name}
               </a>
             ))}
           </div>
@@ -72,13 +72,13 @@ const Navbar = () => {
             </button>
           </div>
           <div className="flex flex-col items-center space-y-8 mt-16">
-            {["Home", "Shop", "Deals", "Blog", "Contact"].map((item) => (
+            {NavItems.map((item) => (
               <a
-                key={item}
-                href="#"
+                key={item.id}
+                href={item.url}
                 className="text-lg font-medium hover:text-blue-600 transition-all duration-300"
               >
-                {item}
+                {item.name}
               </a>
             ))}
           </div>

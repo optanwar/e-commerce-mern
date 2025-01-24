@@ -2,33 +2,52 @@ import React, { useEffect, useState } from "react";
 import { FaStar, FaShoppingCart, FaMinus, FaPlus } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductDetails } from "../../slices/productSlice"; // Adjust the path if needed
-import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { fetchProductDetails } from "../../slices/productSlice";
+import { useParams, useLocation } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
+import Loader from "../../layout/Loader";
+
 const ProductDetails = () => {
-    const { productId } = useParams(); // Assumes productId is passed in the URL
-    const dispatch = useDispatch();
-    const location = useLocation();
-    const [quantity, setQuantity] = useState(1);
-    const [mainImage, setMainImage] = useState(0); // Set the first image as the main image
-    const [review, setReview] = useState("");
-    const { id } = location.state || {};
-    const { productDetails, loading, error } = useSelector((state) => state.products);
+  const { productId } = useParams();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const [quantity, setQuantity] = useState(1);
+  const [mainImage, setMainImage] = useState(""); // Correctly initialize as a string
+  const [review, setReview] = useState("");
+  const { id } = location.state || {};
+  const { productDetails, loading, error } = useSelector((state) => state.products);
+
+  const product = productDetails?.product || {}; // Safely access product
+
+  console.log(product, 444);
+
+  useEffect(() => {
+if (error) {
+   
+    // Show sweet alert when there is an error
+    Swal.fire({
+      title: "Error occurred!",
+      text: error,
+      icon: "error",
+      draggable: true,
+    })}
 
 
-const product = productDetails.product;
-console.log(product,333)
-    useEffect(() => {
-        dispatch(fetchProductDetails(id)); // Fetch product details by ID
-      }, [dispatch, productId]);
 
 
- 
 
-  const handleIncrement = () => {
-    setQuantity((prev) => prev + 1);
-  };
+    if (id) {
+      dispatch(fetchProductDetails(id)); // Ensure id is valid
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (product?.images?.length) {
+      setMainImage(product.images[0].url); // Set the first image URL as the default
+    }
+  }, [product]);
+
+  const handleIncrement = () => setQuantity((prev) => prev + 1);
 
   const handleDecrement = () => {
     if (quantity > 1) {
@@ -36,9 +55,7 @@ console.log(product,333)
     }
   };
 
-  const handleReviewChange = (e) => {
-    setReview(e.target.value);
-  };
+  const handleReviewChange = (e) => setReview(e.target.value);
 
   const handleReviewSubmit = () => {
     if (!review) {
@@ -53,12 +70,15 @@ console.log(product,333)
         text: "Your review has been submitted.",
         icon: "success",
       });
-      // Submit the review logic here
     }
   };
 
+
+
   return (
-    <div className="bg-gray-50 py-12 md:py-24 lg:py-32  xl:py-36"> {/* Added pt-24 to offset navbar */}
+    <>{
+      loading ? <Loader />:<>
+          <div className="bg-gray-50 py-12 md:py-24 lg:py-32 xl:py-36">
       <div className="container mx-auto px-4">
         <div className="bg-white shadow-lg rounded-lg overflow-hidden md:flex md:flex-row flex-col">
           {/* Product Image */}
@@ -74,32 +94,27 @@ console.log(product,333)
 
           {/* Product Details */}
           <div className="md:w-1/2 p-6 flex flex-col justify-between">
-            <h2 className="text-3xl font-semibold text-gray-800">{product.name}</h2>
-            <p className="text-gray-600 mt-2">{product.description}</p>
+            <h2 className="text-3xl font-semibold text-gray-800">{product.name || "Product Name"}</h2>
+            <p className="text-gray-600 mt-2">{product.description || "No description available."}</p>
 
             {/* Price */}
             <div className="text-2xl font-semibold text-gray-900 mt-4">
-              {product.price}$ 
+              {product.price ? `$${product.price}` : "N/A"}
             </div>
 
             {/* Rating */}
             <div className="flex items-center mt-2">
-               <ReactStars
-                                  count={5}
-                                  value={product.ratings}
-                                  isHalf={true}
-                                  size={24}
-                                  edit={false}
-                                  activeColor="#fbbf24"
-                                />
+              <ReactStars
+                count={5}
+                value={product.ratings || 0}
+                isHalf={true}
+                size={24}
+                edit={false}
+                activeColor="#fbbf24"
+              />
               <span className="text-gray-600 ml-2">
-                {product.numOfReviews} reviews
+                {product.numOfReviews || 0} reviews
               </span>
-            </div>
-
-            {/* Stock Status */}
-            <div className="mt-4 text-lg font-medium text-green-600">
-              {/* {product.inStock ? "In Stock" : "Out of Stock"} */}
             </div>
 
             {/* Quantity Selector */}
@@ -127,13 +142,13 @@ console.log(product,333)
 
             {/* Product Image Thumbnails */}
             <div className="mt-6 flex space-x-4">
-              {product.images.map((image, index) => (
+              {product.images?.map((image, index) => (
                 <img
                   key={index}
-                  src={image}
+                  src={image.url}
                   alt="Product Thumbnail"
                   className="w-16 h-16 object-cover rounded-lg cursor-pointer"
-                  onClick={() => setMainImage(image)}
+                  onClick={() => setMainImage(image.url)} // Correctly set the URL
                 />
               ))}
             </div>
@@ -158,7 +173,10 @@ console.log(product,333)
           </button>
         </div>
       </div>
-    </div>
+    </div></>
+    }
+    </>
+
   );
 };
 
