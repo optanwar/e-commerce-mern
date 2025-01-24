@@ -6,11 +6,17 @@ import Loader from '../../layout/Loader';
 import Swal from 'sweetalert2';
 import { Link } from "react-router-dom";
 
+
 const ProductList = () => {
   const [cart, setCart] = useState([]);
 
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.products);
+
+
+
+
+
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -47,14 +53,14 @@ const ProductList = () => {
                 products.products.map((product) => (
                   <div
                     key={product._id}
-                    className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
+                    className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform"
                   >
                     <div className="relative">
                     <Link to={`/product/${product._id}`} state={{ id: product._id }}>
                       <img
                         src={product.images[0].url}
                         alt={product.name}
-                        className="w-full h-64 object-cover transition-transform duration-500 ease-in-out transform hover:scale-110 cursor-pointer"
+                        className="w-full h-64 object-cover transition-transform duration-500 ease-in-out transform hover:scale-105 cursor-pointer"
                       />
                       </Link>
                       {/* Discount Tag */}

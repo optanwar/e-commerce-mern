@@ -27,7 +27,7 @@ const HeroSection = () => {
             Shop the <span className="text-yellow-400">Latest Trends</span> <br />
             in <span className="underline  decoration-wavy decoration-yellow-400">Fashion</span>
           </h1>
-          <p className="text-lg sm:text-xl text-gray-200">
+          <p className="text-lg sm:text-xl text-gray-500">
             Upgrade your wardrobe with premium quality fashion pieces, available at exclusive prices.
           </p>
           <div className="flex flex-col sm:flex-row justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4 mt-6">

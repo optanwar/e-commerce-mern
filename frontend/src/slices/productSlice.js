@@ -4,6 +4,7 @@ import axiosInstance from '../axios/axiosInstance';
 
 // Async thunk for fetching products
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
+  
   const response = await axiosInstance.get('/products'); // Your API endpoint for products
   return response.data;
 });
