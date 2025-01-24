@@ -28,6 +28,7 @@ exports.getAllProducts =catchAsyncErrors( async (req, res, next) => {
     success: true,
     message: "Products retrieved successfully",
     products,
+    resultPerPage,
     productsCount
   });
 });

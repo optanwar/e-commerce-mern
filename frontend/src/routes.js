@@ -33,7 +33,7 @@ export const route = [
   {
     id: 5,
     name: "Products",
-    path: "/products/:id",
+    path: "/products/:query",
     component: Products 
   }
 ];

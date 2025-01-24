@@ -71,7 +71,7 @@ const TestimonialSection = () => {
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.id}
-              className="w-full  max-w-md mx-4 px-6 py-8 bg-white rounded-lg shadow-lg flex flex-col items-center text-center space-y-4"
+              className="w-full  max-w-md mx-4 px-6 py-8 md:py-10 lg:py-12 bg-white rounded-lg shadow-lg flex flex-col items-center text-center space-y-4"
             >
               {/* Image */}
               <div className="w-24 h-24 mb-4 flex justify-center items-center bg-gray-100 rounded-full overflow-hidden mx-auto">

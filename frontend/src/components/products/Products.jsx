@@ -5,19 +5,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../../layout/Loader';
 import Swal from 'sweetalert2';
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
-const ProductList = ({ match }) => {
+import Pagination from "react-js-pagination";
+
+const ProductList = () => {
   const [cart, setCart] = useState([]);
   const dispatch = useDispatch();
+const [currentPage, setCurrentPage] = useState(1);
+  const { products, loading, error  } = useSelector((state) => state.products);
 
-  const { products, loading, error } = useSelector((state) => state.products);
-  const query = match?.params?.query || '';
+  console.log(products,4343);
+
+
+  const setCurrentPage = (e) => {
+    setCurrentPage(e);
+  }
 
   // Fetch products on component mount or when query changes
   useEffect(() => {
-    dispatch(fetchProducts(query));
-  }, [dispatch, query]);
+    dispatch(fetchProducts());
+  }, [dispatch,]);
 
   // Handle error with SweetAlert
   useEffect(() => {
@@ -28,10 +35,10 @@ const ProductList = ({ match }) => {
         icon: "error",
         confirmButtonText: "Retry",
       }).then(() => {
-        dispatch(fetchProducts(query));
+        dispatch(fetchProducts());
       });
     }
-  }, [error, dispatch, query]);
+  }, [error, dispatch]);
 
   const handleAddToCart = (product) => {
     setCart((prevCart) => [...prevCart, product]);
@@ -121,7 +128,26 @@ const ProductList = ({ match }) => {
               </p>
             )}
           </div>
+
+
+
         )}
+        <div>
+ <Pagination 
+ activePage={currentPage}
+  itemsCountPerPage={resultPerPage}
+  totalItemsCount={products.totalProducts}
+  onChange={setCurrentPage}
+  nextPageText={'Next'}
+  prevPageText={'Prev'}
+  firstPageText={'1st'}
+  lastPageText={'Last'}
+  itemClass="page-item"
+  linkClass="page-link"
+  activeClass="pageItemActive"
+  activeLinkClass="pageLinkActive"
+ />
+        </div>
       </div>
     </div>
   );
