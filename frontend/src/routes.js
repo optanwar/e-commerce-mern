@@ -29,5 +29,11 @@ export const route = [
     name: "Products",
     path: "/products",
     component: Products 
+  },
+  {
+    id: 5,
+    name: "Products",
+    path: "/products/:id",
+    component: Products 
   }
 ];
