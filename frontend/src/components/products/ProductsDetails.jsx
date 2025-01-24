@@ -91,7 +91,7 @@ const ProductDetails = () => {
 
                 {/* Price */}
                 <div className="text-2xl font-semibold text-gray-900 mt-4">
-                  {product.price ? `$${product.price}$` : "N/A"}
+                  {product.price ? `$${product.price}` : "N/A"}
                 </div>
 
                 {/* Rating */}
