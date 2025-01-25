@@ -144,7 +144,8 @@ const [currentPage, setCurrentPage] = useState(1);
   lastPageText={'Last'}
   itemClass="page-item"
   linkClass="page-link"
- 
+  activeClass="pageItemActive"
+  activeLinkClass="pageLinkActive"
  />
         </div>
       </div>
