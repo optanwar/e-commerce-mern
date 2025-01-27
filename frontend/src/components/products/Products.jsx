@@ -11,20 +11,27 @@ import Pagination from "react-js-pagination";
 const ProductList = () => {
   const [cart, setCart] = useState([]);
   const dispatch = useDispatch();
-const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const { products, loading, error  } = useSelector((state) => state.products);
 
-  console.log(products,4343);
 
 
-  const setCurrentPage = (e) => {
+
+const resultPEr = products.resultPerPage
+
+
+  
+
+
+  const setCurrentPageNo = (e) => {
+    
     setCurrentPage(e);
   }
 
   // Fetch products on component mount or when query changes
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch,]);
+    dispatch(fetchProducts(currentPage, resultPEr ));
+  }, [dispatch, currentPage ,resultPEr]);
 
   // Handle error with SweetAlert
   useEffect(() => {
@@ -35,10 +42,10 @@ const [currentPage, setCurrentPage] = useState(1);
         icon: "error",
         confirmButtonText: "Retry",
       }).then(() => {
-        dispatch(fetchProducts());
+        dispatch(fetchProducts(currentPage, resultPEr));
       });
     }
-  }, [error, dispatch]);
+  }, [error, dispatch , currentPage ,resultPEr]);
 
   const handleAddToCart = (product) => {
     setCart((prevCart) => [...prevCart, product]);
@@ -132,12 +139,14 @@ const [currentPage, setCurrentPage] = useState(1);
 
 
         )}
-        <div>
+        {
+          resultPEr < products.productsCount && (
+            <div>
  <Pagination 
  activePage={currentPage}
-  itemsCountPerPage={resultPerPage}
-  totalItemsCount={products.totalProducts}
-  onChange={setCurrentPage}
+  itemsCountPerPage={products.resultPerPage}
+  totalItemsCount={products.productsCount}
+  onChange={setCurrentPageNo}
   nextPageText={'Next'}
   prevPageText={'Prev'}
   firstPageText={'1st'}
@@ -148,6 +157,8 @@ const [currentPage, setCurrentPage] = useState(1);
   activeLinkClass="pageLinkActive"
  />
         </div>
+          )
+        }
       </div>
     </div>
   );

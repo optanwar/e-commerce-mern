@@ -3,10 +3,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../axios/axiosInstance';
 
 // Async thunk for fetching products
-export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
+export const fetchProducts = createAsyncThunk('products/fetchProducts', async (currentPage=1) => {
 
  
-  const response = await axiosInstance.get("/products"); // Your API endpoint for products
+  const response = await axiosInstance.get(`/products?page=${currentPage}`); // Your API endpoint for products
   return response.data;
 });
 // Async thunk for fetching product details by ID
