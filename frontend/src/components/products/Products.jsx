@@ -5,33 +5,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../../layout/Loader';
 import Swal from 'sweetalert2';
 import { Link } from "react-router-dom";
-
 import Pagination from "react-js-pagination";
 
 const ProductList = () => {
   const [cart, setCart] = useState([]);
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-  const { products, loading, error  } = useSelector((state) => state.products);
+  const { products, loading, error } = useSelector((state) => state.products);
 
+  // Extract resultPerPage and productsCount from the products state
+  const resultPerPage = products?.resultPerPage || 10; // Default to 10 if not available
+  const productsCount = products?.productsCount || 0;
 
-
-
-const resultPEr = products.resultPerPage
-
-
-  
-
-
-  const setCurrentPageNo = (e) => {
-    
-    setCurrentPage(e);
-  }
-
-  // Fetch products on component mount or when query changes
+  // Fetch products on component mount or when currentPage or resultPerPage changes
   useEffect(() => {
-    dispatch(fetchProducts(currentPage, resultPEr ));
-  }, [dispatch, currentPage ,resultPEr]);
+    dispatch(fetchProducts(currentPage, resultPerPage));
+  }, [dispatch, currentPage, resultPerPage]);
 
   // Handle error with SweetAlert
   useEffect(() => {
@@ -42,10 +31,10 @@ const resultPEr = products.resultPerPage
         icon: "error",
         confirmButtonText: "Retry",
       }).then(() => {
-        dispatch(fetchProducts(currentPage, resultPEr));
+        dispatch(fetchProducts(currentPage, resultPerPage));
       });
     }
-  }, [error, dispatch , currentPage ,resultPEr]);
+  }, [error, dispatch, currentPage, resultPerPage]);
 
   const handleAddToCart = (product) => {
     setCart((prevCart) => [...prevCart, product]);
@@ -76,7 +65,6 @@ const resultPEr = products.resultPerPage
                         className="w-full h-64 object-cover transition-transform duration-500 ease-in-out transform hover:scale-105 cursor-pointer"
                       />
                     </Link>
-                    {/* Discount Tag */}
                     {product.discount ? (
                       <span className="absolute top-3 left-3 bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-full">
                         {product.discount}% OFF
@@ -92,8 +80,6 @@ const resultPEr = products.resultPerPage
                     <p className="text-lg text-gray-600 font-semibold">
                       ${product.price.toFixed(2)}
                     </p>
-
-                    {/* Rating */}
                     <div className="flex items-center">
                       <ReactStars
                         count={5}
@@ -107,17 +93,13 @@ const resultPEr = products.resultPerPage
                         ({product.numOfReviews} Reviews)
                       </span>
                     </div>
-
                     <div className="mt-6 flex justify-between items-center">
-                      {/* Add to Cart Button */}
                       <button
                         onClick={() => handleAddToCart(product)}
                         className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 px-6 rounded-lg text-sm font-semibold hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-700 transition-all"
                       >
                         Add to Cart
                       </button>
-
-                      {/* View Details Button */}
                       <Link
                         to={`/product/${product._id}`}
                         state={{ id: product._id }}
@@ -135,30 +117,25 @@ const resultPEr = products.resultPerPage
               </p>
             )}
           </div>
-
-
-
         )}
-        {
-          resultPEr < products.productsCount && (
-            <div>
- <Pagination 
- activePage={currentPage}
-  itemsCountPerPage={products.resultPerPage}
-  totalItemsCount={products.productsCount}
-  onChange={setCurrentPageNo}
-  nextPageText={'Next'}
-  prevPageText={'Prev'}
-  firstPageText={'1st'}
-  lastPageText={'Last'}
-  itemClass="page-item"
-  linkClass="page-link"
-  activeClass="pageItemActive"
-  activeLinkClass="pageLinkActive"
- />
-        </div>
-          )
-        }
+        {resultPerPage < productsCount && (
+          <div className="mt-8 flex justify-center">
+            <Pagination
+              activePage={currentPage}
+              itemsCountPerPage={resultPerPage}
+              totalItemsCount={productsCount}
+              onChange={setCurrentPage}
+              nextPageText={'Next'}
+              prevPageText={'Prev'}
+              firstPageText={'1st'}
+              lastPageText={'Last'}
+              itemClass="page-item"
+              linkClass="page-link"
+              activeClass="pageItemActive"
+              activeLinkClass="pageLinkActive"
+            />
+          </div>
+        )}
       </div>
     </div>
   );
