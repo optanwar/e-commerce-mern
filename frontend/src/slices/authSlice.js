@@ -7,7 +7,7 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (userCredentia
   return response.data;
 });
 
-// Async thunk for user registration
+//  registration
 export const registerUser = createAsyncThunk('registerUser', async (userDetails) => {
   const response = await axiosInstance.post('/register', userDetails); // Replace with your API endpoint for registration
   return response.data;
