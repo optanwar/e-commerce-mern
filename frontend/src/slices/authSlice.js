@@ -13,7 +13,7 @@ export const registerUser = createAsyncThunk('registerUser', async (userDetails)
   return response.data;
 });
 
-// Async thunk for forget password
+//  forget password
 export const forgotPassword = createAsyncThunk('forgotPassword', async (email) => {
   const response = await axiosInstance.post('/password/forgot', { email }); // Replace with your API endpoint for forget password
   return response.data;
