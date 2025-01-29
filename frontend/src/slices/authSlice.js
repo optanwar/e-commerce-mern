@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../axios/axiosInstance';
 
-// Async thunk for user login
+//  user login
 export const loginUser = createAsyncThunk('auth/loginUser', async (userCredentials) => {
   const response = await axiosInstance.post('/login', userCredentials); // Replace with your API endpoint for login
   return response.data;
