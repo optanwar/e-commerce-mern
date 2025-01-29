@@ -45,10 +45,10 @@ const Navbar = () => {
               </span>
             </button>
 
-            {/* User Icon */}
-            <button className="hover:text-yellow-300 transition-all duration-300">
-              <FaUserCircle className="text-xl" />
-            </button>
+  
+            <Link to="/login" className="hover:text-yellow-300 transition-all duration-300">           
+            <FaUserCircle className="text-xl" />
+              </Link>
 
             {/* Mobile Menu Button */}
             <button

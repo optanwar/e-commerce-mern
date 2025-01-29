@@ -6,6 +6,7 @@ import { fetchProductDetails } from "../../slices/productSlice";
 import { useParams, useLocation } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import Loader from "../../layout/Loader";
+import MetaData from "../../layout/MetaData";
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -69,7 +70,9 @@ const ProductDetails = () => {
 
   return (
     <>
+       <MetaData title={product.name || "Ecommerce Website"}/>
       {loading ? <Loader /> : (
+      
         <div className="bg-gradient-to-r from-blue-100 via-purple-200 to-pink-300 py-12 md:py-24 lg:py-32 xl:py-36">
           <div className="container mx-auto px-4">
             <div className="bg-white shadow-lg rounded-lg overflow-hidden md:flex md:flex-row flex-col">
