@@ -5,6 +5,7 @@ const Search = React.lazy(() => import("./components/products/Search.jsx"));
 const ProductsDetails = React.lazy(() => import("./components/products/ProductsDetails.jsx"));
 const Products = React.lazy(() => import("./components/products/Products.jsx"));
 const LoginSingUp = React.lazy(()=> import("./components/auth/loginSignup.jsx"));
+const Account = React.lazy(()=> import("./components/auth/account.jsx"));
 
 export const route = [
   {
@@ -42,5 +43,11 @@ export const route = [
     name: "Login",
     path: "/login",
     component: LoginSingUp 
+  },
+  {
+    id: 7,
+    name: "Account",
+    path: "/account",
+    component: Account  
   }
 ];

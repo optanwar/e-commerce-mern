@@ -13,7 +13,7 @@ export default function Auth() {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Initialize navigate
 
-  const { user, loading, error } = useSelector((state) => state.user);
+  const { user, loading, error , successMessage  } = useSelector((state) => state.user);
 
   const [formErrors, setFormErrors] = useState({
     email: "",

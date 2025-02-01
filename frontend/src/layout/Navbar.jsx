@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { FaShoppingCart, FaUserCircle, FaBars, FaTimes, FaSearch } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import NavItems from '../json/navItem.json'
 const Navbar = () => {
+  const { user } = useSelector((state) => state.user); // Assuming user state holds user data when logged in
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-
+  const handleClick = () => {
+    if (user) {
+      navigate("/account"); // Redirect to account page if logged in
+    } else {
+      navigate("/login"); // Redirect to login page if not logged in
+    }
+  };
   return (
     <nav className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg fixed top-0 w-full z-50">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
@@ -46,9 +55,12 @@ const Navbar = () => {
             </button>
 
   
-            <Link to="/login" className="hover:text-yellow-300 transition-all duration-300">           
-            <FaUserCircle className="text-xl" />
-              </Link>
+            <button
+        onClick={handleClick}
+        className="hover:text-yellow-300 transition-all duration-300"
+      >
+        <FaUserCircle className="text-xl" />
+      </button>
 
             {/* Mobile Menu Button */}
             <button
