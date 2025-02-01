@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, registerUser, forgotPassword } from "../../slices/authSlice"; // Import the necessary actions
+import { loginUser, registerUser, forgotPassword } from "../../slices/authSlice"; 
+import { useNavigate } from "react-router-dom"; // Import for redirection
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -10,15 +11,24 @@ export default function Auth() {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Initialize navigate
 
-  const { loading, error, successMessage } = useSelector((state) => state.auth); // Get loading, error, and success messages from Redux state
+  const { user, loading, error } = useSelector((state) => state.user);
+
   const [formErrors, setFormErrors] = useState({
     email: "",
     password: "",
     fullName: "",
   });
 
-  // Handle image change (for profile picture during registration)
+  // Redirect to home if user is logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/"); // Redirect to home page after successful login
+    }
+  }, [user, navigate]);
+
+  // Handle image change for profile upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -30,28 +40,15 @@ export default function Auth() {
     }
   };
 
-  // Email validation
-  const validateEmail = (email) => {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return regex.test(email);
-  };
+  // Form validation functions
+  const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+  const validatePassword = (password) => password.length >= 6;
+  const validateFullName = (fullName) => fullName.trim().length > 0;
 
-  // Password validation (ensure it's at least 6 characters)
-  const validatePassword = (password) => {
-    return password.length >= 6;
-  };
-
-  // Full name validation (ensure it's not empty for registration)
-  const validateFullName = (fullName) => {
-    return fullName.trim().length > 0;
-  };
-
-  // Handle form validation before submitting
   const validateForm = () => {
     let errors = {};
     let formIsValid = true;
 
-    // Validate email
     if (!email) {
       errors.email = "Email is required.";
       formIsValid = false;
@@ -60,7 +57,6 @@ export default function Auth() {
       formIsValid = false;
     }
 
-    // Validate password
     if (!password) {
       errors.password = "Password is required.";
       formIsValid = false;
@@ -69,7 +65,6 @@ export default function Auth() {
       formIsValid = false;
     }
 
-    // Validate full name (only for registration)
     if (!isLogin && !validateFullName(fullName)) {
       errors.fullName = "Full name is required.";
       formIsValid = false;
@@ -79,7 +74,7 @@ export default function Auth() {
     return formIsValid;
   };
 
-  // Handle form submit for login
+  // Handle Login
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -87,15 +82,15 @@ export default function Auth() {
     }
   };
 
-  // Handle form submit for registration
+  // Handle Registration
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      dispatch(registerUser({ email, password, fullName }));
+      dispatch(registerUser({ email, password, fullName, image }));
     }
   };
 
-  // Handle form submit for forgot password
+  // Handle Forgot Password
   const handleForgotPasswordSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -130,7 +125,7 @@ export default function Auth() {
               {loading ? "Loading..." : "Reset Password"}
             </button>
             {error && <p className="text-red-500 text-center mt-2">{error}</p>}
-            {successMessage && <p className="text-green-500 text-center mt-2">{successMessage}</p>}
+            {user && <p className="text-green-500 text-center mt-2">{user}</p>}
             <button
               type="button"
               className="text-blue-600 text-sm hover:underline block text-center mt-3"
@@ -217,7 +212,6 @@ export default function Auth() {
               {loading ? "Loading..." : isLogin ? "Login" : "Register"}
             </button>
             {error && <p className="text-red-500 text-center mt-2">{error}</p>}
-            {successMessage && <p className="text-green-500 text-center mt-2">{successMessage}</p>}
           </form>
         )}
 
