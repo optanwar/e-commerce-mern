@@ -86,6 +86,7 @@ export default function Auth() {
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
+
       dispatch(registerUser({ email, password, fullName, image }));
     }
   };
