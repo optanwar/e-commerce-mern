@@ -5,11 +5,11 @@ import { logout } from '../../slices/authSlice';
 
 const Account = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate(); 
 
   const handleLogout = () => {
-    dispatch(logout()); // Dispatch the logout action
-    navigate('/'); // Redirect to the home page after logout
+    dispatch(logout()); 
+    navigate('/'); 
   };
 
   return (
