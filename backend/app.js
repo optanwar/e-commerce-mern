@@ -8,6 +8,17 @@ const fileUpload = require('express-fileupload');
 const errorMiddleware = require("./middleware/error")
 const cors = require('cors');
 
+
+// Enable CORS for all routes
+app.use(cors({
+    origin: 'http://localhost:5173',  // Your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  }));
+ 
+
 const corsOptions ={
     origin:'http://localhost:5173', 
     credentials:true,            //access-control-allow-credentials:true
@@ -20,8 +31,14 @@ app.use(fileUpload());
 
 app.use(cors());
 app.use(cors(corsOptions));
+// Or enable CORS for specific origins
+app.use(cors({
+    origin: 'http://localhost:5173'  // Your frontend URL
+  }));
 
-
+ // Increase the payload limit to 10MB
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // Route Imports 
 
 const productRoutes = require("./routes/productRoute")
