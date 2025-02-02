@@ -30,14 +30,35 @@ export default function Auth() {
 
   // Handle image change for profile upload
   const handleImageChange = (e) => {
+
+
+
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+  if (file) {
+    // Set a size limit (e.g., 5 MB)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    // Check if the file size exceeds the limit
+    if (file.size > maxSize) {
+      alert("File size exceeds 5MB.");
+      return; // Stop the process if the file is too large
     }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+    // const file = e.target.files[0];
+    // if (file) {
+    //   const reader = new FileReader();
+    //   reader.onloadend = () => {
+    //     setImage(reader.result);
+    //   };
+    //   reader.readAsDataURL(file);
+    // }
   };
 
   // Form validation functions
