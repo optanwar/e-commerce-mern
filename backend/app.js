@@ -41,7 +41,8 @@ app.use(cors({
 // Use body-parser middleware with increased limits
 app.use(bodyParser.json({ limit: '10mb' }));  // For JSON payloads
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));  // For URL-encoded data
-
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 // Route Imports 
 
 
