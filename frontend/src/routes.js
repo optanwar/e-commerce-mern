@@ -9,6 +9,7 @@ const Account = React.lazy(()=> import("./components/auth/account.jsx"));
 const ChangePassword = React.lazy(()=> import("./components/auth/changePassword.jsx"));
 const UpdateProfile = React.lazy(()=> import("./components/auth/UpdateProfile.jsx"));
 
+
 export const route = [
   {
     id: 1,
@@ -64,4 +65,5 @@ export const route = [
     path: "/update-profile",
     component: UpdateProfile  
   }
+ 
 ];

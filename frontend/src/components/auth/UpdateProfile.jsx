@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiMail, FiCamera, FiArrowLeft, FiSave } from "react-icons/fi";
+import { updateProfile } from "../../slices/authSlice"; // Import updateProfile action
 
 const UpdateProfile = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { user, loading, error, successMessage } = useSelector((state) => state.user);
 
   const [form, setForm] = useState({
     name: user?.name || "",
     email: user?.email || "",
-    profileImage: user?.profileImage || "https://via.placeholder.com/100",
+    profileImage: user?.profileImage || "https://via.placeholder.com/150",
   });
 
   const [imagePreview, setImagePreview] = useState(form.profileImage);
@@ -21,7 +23,6 @@ const UpdateProfile = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -32,34 +33,32 @@ const UpdateProfile = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Updated Profile:", form);
-    navigate("/account"); // Redirect to account page after update
+    dispatch(updateProfile(form)); // Dispatch Redux action to update profile
   };
 
   return (
-    <div className="h-screen flex justify-center items-center bg-gradient-to-br from-gray-100 to-gray-300 px-4">
-      <div className="max-w-md w-full bg-white shadow-2xl rounded-2xl p-8">
-        
+    <div className="h-screen flex justify-center items-center bg-gray-100 px-4">
+      <div className="max-w-md w-full bg-white shadow-xl rounded-2xl p-6 sm:p-8">
         {/* Back Button */}
         <button
           onClick={() => navigate("/account")}
-          className="flex items-center text-gray-600 hover:text-gray-800 transition mb-6"
+          className="flex items-center text-gray-600 hover:text-gray-900 transition mb-6"
         >
           <FiArrowLeft className="mr-2" /> Back to Account
         </button>
 
         {/* Profile Image Upload */}
-        <div className="relative w-24 h-24 mx-auto mb-4">
+        <div className="relative w-28 h-28 mx-auto mb-6">
           <img
             src={imagePreview}
             alt="Profile"
-            className="w-24 h-24 rounded-full border-4 border-gray-300 object-cover mx-auto"
+            className="w-28 h-28 rounded-full border-4 border-gray-300 object-cover mx-auto"
           />
           <label
             htmlFor="fileInput"
-            className="absolute bottom-0 right-0 bg-blue-500 text-white p-2 rounded-full cursor-pointer shadow-lg hover:bg-blue-600 transition"
+            className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-blue-700 transition"
           >
             <FiCamera size={16} />
             <input
@@ -72,47 +71,51 @@ const UpdateProfile = () => {
           </label>
         </div>
 
+        {/* Success/Error Message */}
+        {error && <p className="text-red-500 text-center">{error}</p>}
+        {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
+
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name Input */}
           <div>
-            <label className="text-gray-700 font-medium block mb-1">Full Name</label>
+            <label className="text-gray-700 font-medium block mb-2">Full Name</label>
             <div className="relative">
               <input
                 type="text"
                 name="name"
                 value={form.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
+                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500"
                 required
               />
-              <FiUser className="absolute inset-y-0 right-4 flex items-center text-gray-500" />
+              <FiUser className="absolute inset-y-0 right-4 top-3 text-gray-500" />
             </div>
           </div>
 
           {/* Email Input */}
           <div>
-            <label className="text-gray-700 font-medium block mb-1">Email</label>
+            <label className="text-gray-700 font-medium block mb-2">Email</label>
             <div className="relative">
               <input
                 type="email"
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
+                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500"
                 required
               />
-              <FiMail className="absolute inset-y-0 right-4 flex items-center text-gray-500" />
+              <FiMail className="absolute inset-y-0 right-4 top-3 text-gray-500" />
             </div>
           </div>
 
           {/* Save Button */}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white font-medium py-3 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md flex items-center justify-center"
+            disabled={loading}
+            className="w-full bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md flex items-center justify-center"
           >
-            <FiSave className="mr-2 text-lg" /> Save Changes
+            {loading ? "Saving..." : <><FiSave className="mr-2 text-lg" /> Save Changes</>}
           </button>
         </form>
       </div>

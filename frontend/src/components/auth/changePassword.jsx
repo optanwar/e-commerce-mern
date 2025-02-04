@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {changePassword} from "../../slices/authSlice"; // Import action
 import { FiEye, FiEyeOff, FiArrowLeft, FiLock } from "react-icons/fi";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Get the current user from Redux store
+  const user = useSelector((state) => state.auth.user);
 
   const [form, setForm] = useState({
     currentPassword: "",
@@ -18,26 +24,50 @@ const ChangePassword = () => {
   });
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
+  // Handle input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // Toggle password visibility
   const togglePassword = (field) => {
     setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validate current user
+    if (!user || !user.password) {
+      setError("No user found. Please log in first.");
+      return;
+    }
+
+    // Validate current password
+    if (form.currentPassword !== user.password) {
+      setError("Current password is incorrect!");
+      return;
+    }
+
+    // Validate new password match
     if (form.newPassword !== form.confirmPassword) {
       setError("New Password and Confirm Password do not match!");
       return;
     }
 
+    // Dispatch Redux action to update password
+    dispatch(changePassword(form.newPassword));
+
     setError("");
-    console.log("Password changed successfully!");
-    navigate("/account"); // Redirect back to account page
+    setSuccess("Password updated successfully!");
+
+    // Redirect after a short delay
+    setTimeout(() => {
+      navigate("/account");
+    }, 1500);
   };
 
   return (
@@ -63,6 +93,7 @@ const ChangePassword = () => {
 
         {/* Error Message */}
         {error && <p className="text-red-500 text-center mt-3">{error}</p>}
+        {success && <p className="text-green-500 text-center mt-3">{success}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-5 mt-6">
           
