@@ -2,16 +2,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../slices/authSlice";
-import { FiLogOut, FiLock, FiShoppingBag } from "react-icons/fi"; // Added My Orders icon
+import { FiLogOut, FiLock, FiShoppingBag, FiUser } from "react-icons/fi"; // Added User icon
 
 const Account = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   // Fetch user data from Redux store
   const { user } = useSelector((state) => state.user);
-
-
 
   const handleLogout = () => {
     dispatch(logout());
@@ -43,19 +41,27 @@ const Account = () => {
         </div>
 
         {/* Buttons */}
-        <div className="mt-6 flex gap-4">
+        <div className="mt-6 flex flex-col gap-4">
           {/* My Orders Button */}
           <button
             onClick={() => navigate("/orders")}
-            className="flex-1 flex items-center justify-center px-4 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition duration-300"
+            className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition duration-300"
           >
             <FiShoppingBag className="mr-2 text-lg" /> My Orders
+          </button>
+
+          {/* Update Profile Button */}
+          <button
+            onClick={() => navigate("/update-profile")}
+            className="w-full flex items-center justify-center px-4 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition duration-300"
+          >
+            <FiUser className="mr-2 text-lg" /> Update Profile
           </button>
 
           {/* Change Password Button */}
           <button
             onClick={() => navigate("/change-password")}
-            className="flex-1 flex items-center justify-center px-4 py-2 bg-yellow-500 text-white font-medium rounded-lg hover:bg-yellow-600 transition duration-300"
+            className="w-full flex items-center justify-center px-4 py-2 bg-yellow-500 text-white font-medium rounded-lg hover:bg-yellow-600 transition duration-300"
           >
             <FiLock className="mr-2 text-lg" /> Change Password
           </button>
