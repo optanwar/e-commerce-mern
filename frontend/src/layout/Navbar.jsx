@@ -1,30 +1,61 @@
-import React, { useState } from 'react';
-import { FaShoppingCart, FaUserCircle, FaBars, FaTimes, FaSearch } from 'react-icons/fa';
-import { useSelector } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
+import { FaShoppingCart, FaUserCircle, FaBars, FaTimes, FaSearch } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import NavItems from '../json/navItem.json'
+import NavItems from "../json/navItem.json";
+import { logout } from '../slices/authSlice';
 const Navbar = () => {
   const { user } = useSelector((state) => state.user); // Assuming user state holds user data when logged in
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const handleClick = () => {
     if (user) {
-      navigate("/account"); // Redirect to account page if logged in
+      setShowDropdown((prev) => !prev);
     } else {
-      navigate("/login"); // Redirect to login page if not logged in
+      navigate("/login");
     }
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]);
+
+
+
+    const handleLogout = () => {
+      dispatch(logout()); 
+      navigate('/'); 
+    };
   return (
     <nav className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg fixed top-0 w-full z-50">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <Link to="/" className="text-3xl font-bold tracking-wide hover:opacity-90">
-          <span className="text-yellow-400">Shop</span>Ease
+            <span className="text-yellow-400">Shop</span>Ease
           </Link>
-        
+
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
             {NavItems.map((item) => (
@@ -41,10 +72,9 @@ const Navbar = () => {
           {/* Right Icons */}
           <div className="flex items-center space-x-6">
             {/* Search Icon */}
-            <Link to="/search" className="hover:text-yellow-300 transition-all duration-300">           
+            <Link to="/search" className="hover:text-yellow-300 transition-all duration-300">
               <FaSearch className="text-xl" />
-              </Link>
-      
+            </Link>
 
             {/* Cart Icon */}
             <button className="relative hover:text-yellow-300 transition-all duration-300">
@@ -54,13 +84,33 @@ const Navbar = () => {
               </span>
             </button>
 
-  
-            <button
-        onClick={handleClick}
-        className="hover:text-yellow-300 transition-all duration-300"
-      >
-        <FaUserCircle className="text-xl" />
-      </button>
+            {/* User Dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={handleClick}
+                className="hover:text-yellow-300 transition-all duration-300"
+              >
+                <FaUserCircle className="text-xl" />
+              </button>
+
+              {/* Dropdown Menu */}
+              {user && showDropdown && (
+                <div className="absolute right-0 mt-2 w-36 bg-white shadow-lg rounded-lg overflow-hidden border">
+                  <button
+                    onClick={() => navigate("/account")}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-200 text-gray-950"
+                  >
+                    Profile
+                  </button>
+                  <button
+                    onClick={() => handleLogout()} // Replace with actual logout function
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-200 text-gray-950"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Mobile Menu Button */}
             <button
