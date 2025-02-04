@@ -6,6 +6,7 @@ const ProductsDetails = React.lazy(() => import("./components/products/ProductsD
 const Products = React.lazy(() => import("./components/products/Products.jsx"));
 const LoginSingUp = React.lazy(()=> import("./components/auth/loginSignup.jsx"));
 const Account = React.lazy(()=> import("./components/auth/account.jsx"));
+const ChangePassword = React.lazy(()=> import("./components/auth/changePassword.jsx"));
 
 export const route = [
   {
@@ -49,5 +50,11 @@ export const route = [
     name: "Account",
     path: "/account",
     component: Account  
+  },
+  {
+    id: 8,
+    name: "Change Password",
+    path: "/change-password",
+    component: ChangePassword  
   }
 ];
