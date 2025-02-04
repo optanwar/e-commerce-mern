@@ -16,7 +16,7 @@ export default function Auth() {
   const { user, loading, error } = useSelector((state) => state.user);
 
   const newUser = localStorage.getItem("user")
-  console.log(newUser,5555)
+
 
   const [formErrors, setFormErrors] = useState({
     email: "",

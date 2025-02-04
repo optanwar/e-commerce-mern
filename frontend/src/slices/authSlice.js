@@ -31,12 +31,12 @@ export const updateProfile = createAsyncThunk('auth/updateProfile', async (profi
 });
 
 // Change Password
-export const changePassword = createAsyncThunk('auth/changePassword', async (passwordData, { rejectWithValue }) => {
+export const changePassword = createAsyncThunk('auth/changePassword', async (passwordData,  { rejectWithValue }) => {
   try {
     const response = await axiosInstance.put('/password/update', passwordData);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response?.data?.message || 'Password change failed');
+    return rejectWithValue(error.response || 'Password change failed');
   }
 });
 

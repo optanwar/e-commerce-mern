@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { changePassword } from "../../slices/authSlice"; 
 import { FiEye, FiEyeOff, FiArrowLeft, FiLock } from "react-icons/fi";
@@ -7,6 +7,7 @@ import { FiEye, FiEyeOff, FiArrowLeft, FiLock } from "react-icons/fi";
 const ChangePassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.user); // Get token from Redux store
 
   const [form, setForm] = useState({
     oldPassword: "",
@@ -33,21 +34,20 @@ const ChangePassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Clear errors before validation
+    setError(""); 
 
     if (form.newPassword !== form.confirmPassword) {
       setError("New Password and Confirm Password do not match!");
       return;
     }
 
-    try {
-      // Dispatch API call to change password
-      const response = await dispatch(changePassword({ 
-        oldPassword: form.oldPassword, 
-        newPassword: form.newPassword,
-        confirmPassword: form.confirmPassword,
-      })).unwrap();
+    if (!token) {
+      setError("Unauthorized: Please log in again.");
+      return;
+    }
 
+    try {
+      const response = await dispatch(changePassword(form)).unwrap();
       setSuccess(response.message || "Password updated successfully!");
       setTimeout(() => navigate("/account"), 1500);
     } catch (err) {
@@ -78,69 +78,30 @@ const ChangePassword = () => {
         {success && <p className="text-green-500 text-center mt-3">{success}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-5 mt-6">
-          
-          <div>
-            <label className="text-gray-700 font-medium block mb-1">Current Password</label>
-            <div className="relative">
-              <input
-                type={showPassword.old ? "text" : "password"}
-                name="oldPassword"
-                value={form.oldPassword}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
-                required
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-4 flex items-center text-gray-500"
-                onClick={() => togglePassword("old")}
-              >
-                {showPassword.old ? <FiEyeOff /> : <FiEye />}
-              </button>
+          {["oldPassword", "newPassword", "confirmPassword"].map((field, index) => (
+            <div key={index}>
+              <label className="text-gray-700 font-medium block mb-1">
+                {field === "oldPassword" ? "Current Password" : field === "newPassword" ? "New Password" : "Confirm Password"}
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword[field] ? "text" : "password"}
+                  name={field}
+                  value={form[field]}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
+                  required
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-4 flex items-center text-gray-500"
+                  onClick={() => togglePassword(field)}
+                >
+                  {showPassword[field] ? <FiEyeOff /> : <FiEye />}
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div>
-            <label className="text-gray-700 font-medium block mb-1">New Password</label>
-            <div className="relative">
-              <input
-                type={showPassword.new ? "text" : "password"}
-                name="newPassword"
-                value={form.newPassword}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
-                required
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-4 flex items-center text-gray-500"
-                onClick={() => togglePassword("new")}
-              >
-                {showPassword.new ? <FiEyeOff /> : <FiEye />}
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <label className="text-gray-700 font-medium block mb-1">Confirm Password</label>
-            <div className="relative">
-              <input
-                type={showPassword.confirm ? "text" : "password"}
-                name="confirmPassword"
-                value={form.confirmPassword}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
-                required
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-4 flex items-center text-gray-500"
-                onClick={() => togglePassword("confirm")}
-              >
-                {showPassword.confirm ? <FiEyeOff /> : <FiEye />}
-              </button>
-            </div>
-          </div>
+          ))}
 
           <button
             type="submit"
