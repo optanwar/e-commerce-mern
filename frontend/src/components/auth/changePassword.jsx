@@ -1,24 +1,21 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {changePassword} from "../../slices/authSlice"; // Import action
+import { changePassword } from "../../slices/authSlice"; 
 import { FiEye, FiEyeOff, FiArrowLeft, FiLock } from "react-icons/fi";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Get the current user from Redux store
-  const user = useSelector((state) => state.auth.user);
-
   const [form, setForm] = useState({
-    currentPassword: "",
+    oldPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
 
   const [showPassword, setShowPassword] = useState({
-    current: false,
+    old: false,
     new: false,
     confirm: false,
   });
@@ -26,55 +23,42 @@ const ChangePassword = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Handle input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Toggle password visibility
   const togglePassword = (field) => {
     setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Clear errors before validation
 
-    // Validate current user
-    if (!user || !user.password) {
-      setError("No user found. Please log in first.");
-      return;
-    }
-
-    // Validate current password
-    if (form.currentPassword !== user.password) {
-      setError("Current password is incorrect!");
-      return;
-    }
-
-    // Validate new password match
     if (form.newPassword !== form.confirmPassword) {
       setError("New Password and Confirm Password do not match!");
       return;
     }
 
-    // Dispatch Redux action to update password
-    dispatch(changePassword(form.newPassword));
+    try {
+      // Dispatch API call to change password
+      const response = await dispatch(changePassword({ 
+        oldPassword: form.oldPassword, 
+        newPassword: form.newPassword,
+        confirmPassword: form.confirmPassword,
+      })).unwrap();
 
-    setError("");
-    setSuccess("Password updated successfully!");
-
-    // Redirect after a short delay
-    setTimeout(() => {
-      navigate("/account");
-    }, 1500);
+      setSuccess(response.message || "Password updated successfully!");
+      setTimeout(() => navigate("/account"), 1500);
+    } catch (err) {
+      setError(err.message || "Failed to update password.");
+    }
   };
 
   return (
     <div className="h-screen flex justify-center items-center bg-gradient-to-br from-blue-50 to-blue-100 px-4">
       <div className="max-w-md w-full bg-white shadow-2xl rounded-2xl p-8">
         
-        {/* Back Button */}
         <button
           onClick={() => navigate("/account")}
           className="flex items-center text-gray-600 hover:text-gray-800 transition mb-6"
@@ -82,7 +66,6 @@ const ChangePassword = () => {
           <FiArrowLeft className="mr-2" /> Back to Account
         </button>
 
-        {/* Header */}
         <div className="text-center">
           <div className="w-16 h-16 mx-auto flex items-center justify-center bg-blue-500 text-white rounded-full">
             <FiLock size={30} />
@@ -91,20 +74,18 @@ const ChangePassword = () => {
           <p className="text-gray-500 text-sm">Update your password to keep your account secure</p>
         </div>
 
-        {/* Error Message */}
         {error && <p className="text-red-500 text-center mt-3">{error}</p>}
         {success && <p className="text-green-500 text-center mt-3">{success}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-5 mt-6">
           
-          {/* Current Password */}
           <div>
             <label className="text-gray-700 font-medium block mb-1">Current Password</label>
             <div className="relative">
               <input
-                type={showPassword.current ? "text" : "password"}
-                name="currentPassword"
-                value={form.currentPassword}
+                type={showPassword.old ? "text" : "password"}
+                name="oldPassword"
+                value={form.oldPassword}
                 onChange={handleChange}
                 className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
                 required
@@ -112,14 +93,13 @@ const ChangePassword = () => {
               <button
                 type="button"
                 className="absolute inset-y-0 right-4 flex items-center text-gray-500"
-                onClick={() => togglePassword("current")}
+                onClick={() => togglePassword("old")}
               >
-                {showPassword.current ? <FiEyeOff /> : <FiEye />}
+                {showPassword.old ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
           </div>
 
-          {/* New Password */}
           <div>
             <label className="text-gray-700 font-medium block mb-1">New Password</label>
             <div className="relative">
@@ -141,7 +121,6 @@ const ChangePassword = () => {
             </div>
           </div>
 
-          {/* Confirm Password */}
           <div>
             <label className="text-gray-700 font-medium block mb-1">Confirm Password</label>
             <div className="relative">
@@ -163,7 +142,6 @@ const ChangePassword = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-blue-500 text-white font-medium py-3 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md"
