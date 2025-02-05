@@ -7,7 +7,7 @@ import { useParams, useLocation } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import Loader from "../../layout/Loader";
 import MetaData from "../../layout/MetaData";
-
+import { addToCart } from '../../slices/cartSlice'; // Adjust path if needed
 const ProductDetails = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
@@ -135,7 +135,7 @@ const ProductDetails = () => {
                 </div>
 
                 {/* Add to Cart Button */}
-                <button className="mt-6 bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 transition">
+                <button onClick={() => dispatch(addToCart(product))} className="mt-6 bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 transition">
                   <FaShoppingCart className="inline mr-2" />
                   Add to Cart
                 </button>

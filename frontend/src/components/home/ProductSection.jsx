@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Loader from '../../layout/Loader'
 import Swal from 'sweetalert2';
 import { Link } from "react-router-dom";
+import { addToCart } from '../../slices/cartSlice'; // Adjust path if needed
 const ProductSection = () => {
   const dispatch = useDispatch();
  // Get products, loading, and error states from Redux store
@@ -88,7 +89,7 @@ const ProductSection = () => {
                   </div>
                 </div>
 
-                <button className="mt-6 w-full bg-yellow-500 text-white font-bold py-2 rounded-full shadow-md hover:bg-yellow-400 transition-all duration-300">
+                <button onClick={() => dispatch(addToCart(product))}  className="mt-6 w-full bg-yellow-500 text-white font-bold py-2 rounded-full shadow-md hover:bg-yellow-400 transition-all duration-300">
                   Add to Cart
                 </button>
               </div>
