@@ -20,6 +20,8 @@ const ProductDetails = () => {
 
   const product = productDetails?.product || {}; // Safely access product
 
+  console.log(product.stock,555);
+
   useEffect(() => {
     if (error) {
       // Show sweet alert when there is an error
@@ -42,7 +44,10 @@ const ProductDetails = () => {
     }
   }, [product]);
 
-  const handleIncrement = () => setQuantity((prev) => prev + 1);
+  const handleIncrement = () =>{
+    if(product.stock > quantity){
+    setQuantity((prev) => prev + 1);
+  } }
 
   const handleDecrement = () => {
     if (quantity > 1) {
