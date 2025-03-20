@@ -41,7 +41,8 @@ const HeroSection = () => {
               href="#offers"
               className="bg-transparent border-2 border-white px-6 py-3 text-lg font-semibold rounded-full shadow-lg hover:bg-white hover:text-gray-900 transition-all duration-300"
             >
-              View Offers
+              View Offer
+            </a>
           </div>
         </div>
 
