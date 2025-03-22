@@ -33,13 +33,13 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4 mt-6">
             <a
               href="#shop"
-              className="bg-yellow-400 text-gray-900 px-6 py-3 text-lg font-semibold rounded-full shadow-lg hover:bg-yellow-300 hover:shadow-xl transition-all duration-200"
+              className="bg-yellow-400 text-gray-900 px-6 py-3 text-lg font-semibold rounded-full shadow-lg hover:bg-yellow-300 hover:shadow-xl transition-all duration-300"
             >
               Start Shopping
             </a>
             <a
               href="#offers"
-              className="bg-transparent border-2 border-white px-6 py-3 text-lg font-semibold rounded-full shadow-lg hover:bg-white hover:text-gray-900 transition-all duration-300"
+              className="bg-transparent border-2 border-white px-6 py-3 text-lg font-semibold rounded-full shadow-lg hover:bg-white hover:text-gray-900 transition-all duration-200"
             >
               View Offers
             </a>
