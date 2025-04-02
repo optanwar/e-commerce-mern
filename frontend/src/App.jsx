@@ -10,7 +10,7 @@ const App = () => {
   return (
     <div>
       <Router>
-      {/* announcement-bar */}
+   
       <AnnouncementBar/>
         {/* Navbar */}
         <Navbar />
