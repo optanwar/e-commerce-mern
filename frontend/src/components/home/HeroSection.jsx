@@ -2,7 +2,7 @@ import React from 'react'
 
 const HeroSection = () => {
   return (
-    <div>HeroSsf</div>
+    <div>HeroSs</div>
   )
 }
 
