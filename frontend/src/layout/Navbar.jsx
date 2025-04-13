@@ -11,9 +11,9 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <ul className='hidden md:flex space-x-6'>
-            <li><a href="#home" className="text-gray-700 hover:text-primary">Home</a></li>
+            <li><a href="#home" className="text-gray-700 hover:text-primary">Products</a></li>
             <li><a href="#about" className="text-gray-700 hover:text-primary">About</a></li>
-            <li><a href="#services" className="text-gray-700 hover:text-primary">Services</a></li>
+            <li><a href="#services" className="text-gray-700 hover:text-primary">Blogs</a></li>
             <li><a href="#contact" className="text-gray-700 hover:text-primary">Contact</a></li>
           </ul>
 
@@ -50,9 +50,9 @@ const Navbar = () => {
           </button>
         </div>
         <ul className='flex flex-col items-start space-y-4 px-6'>
-          <li><a href="#home" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-primary">Home</a></li>
+          <li><a href="#home" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-primary">Products</a></li>
           <li><a href="#about" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-primary">About</a></li>
-          <li><a href="#services" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-primary">Services</a></li>
+          <li><a href="#services" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-primary">Blogs</a></li>
           <li><a href="#contact" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-primary">Contact</a></li>
           <button className="bg-primary text-white px-4 py-2 rounded w-full mt-4">Where to buy</button>
         </ul>
