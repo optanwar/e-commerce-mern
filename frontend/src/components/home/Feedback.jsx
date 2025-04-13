@@ -1,9 +1,11 @@
 import React from 'react';
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
+
 const Feedback = () => {
   return (
     <div className="bg-[#EDF7FF] flex items-center">
+     
       <div className="container mx-auto px-6 py-10 md:py-16 lg:py-20 xl:py-24">
         <div className="flex flex-col md:flex-row items-center gap-8">
           {/* Image on the left */}
