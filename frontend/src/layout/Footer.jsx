@@ -1,4 +1,8 @@
 import React from 'react';
+import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebook } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -34,8 +38,8 @@ const Footer = () => {
               items: ['FAQs', 'Quick Start', 'Documentation', 'User Guide'],
             },
             {
-              title: 'Blogs',
-              items: ['News', 'Tips & Tricks', 'New Updates', 'Events'],
+              title: 'Legal',
+              items: ['Terms & Conditions', 'Privacy Policy', 'Refund Policy', 'Events'],
             },
           ].map((section, index) => (
             <div key={index} className="lg:mx-auto text-left">
@@ -63,34 +67,25 @@ const Footer = () => {
                 {
                   href: '#',
                   icon: (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path
-                        d="M11.3214 8.93666L16.4919 3.05566H15.2667L10.7772 8.16205L7.1914 3.05566H3.05566L8.47803 10.7774L3.05566 16.9446H4.28097L9.022 11.552L12.8088 16.9446H16.9446L11.3211 8.93666H11.3214ZM9.64322 10.8455L9.09382 10.0765L4.72246 3.95821H6.60445L10.1322 8.8959L10.6816 9.66481L15.2672 16.083H13.3852L9.64322 10.8458V10.8455Z"
-                        fill="white"
-                      />
-                    </svg>
+                    <FaXTwitter />
                   ),
                 },
                 {
                   href: '#',
                   icon: (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path
-                        d="M11.3214 8.93666L16.4919 3.05566H15.2667L10.7772 8.16205L7.1914 3.05566H3.05566L8.47803 10.7774L3.05566 16.9446H4.28097L9.022 11.552L12.8088 16.9446H16.9446L11.3211 8.93666H11.3214ZM9.64322 10.8455L9.09382 10.0765L4.72246 3.95821H6.60445L10.1322 8.8959L10.6816 9.66481L15.2672 16.083H13.3852L9.64322 10.8458V10.8455Z"
-                        fill="white"
-                      />
-                    </svg>
+                    <FaFacebook />
                   ),
                 },
                 {
                   href: '#',
                   icon: (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path
-                        d="M11.3214 8.93666L16.4919 3.05566H15.2667L10.7772 8.16205L7.1914 3.05566H3.05566L8.47803 10.7774L3.05566 16.9446H4.28097L9.022 11.552L12.8088 16.9446H16.9446L11.3211 8.93666H11.3214ZM9.64322 10.8455L9.09382 10.0765L4.72246 3.95821H6.60445L10.1322 8.8959L10.6816 9.66481L15.2672 16.083H13.3852L9.64322 10.8458V10.8455Z"
-                        fill="white"
-                      />
-                    </svg>
+                   <FaInstagram/>
+                  ),
+                },
+                {
+                  href: '#',
+                  icon: (
+                    <FaYoutube />
                   ),
                 },
                 
