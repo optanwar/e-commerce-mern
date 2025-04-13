@@ -4,8 +4,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className='w-full bg-white shadow'>
-      <div className='container mx-auto px-4'>
+    <div className='w-full bg-white shadow sticky top-0 z-50'>
+      <div className='container mx-auto px-4 '>
         <nav className='flex justify-between items-center py-4'>
           <div className='text-2xl font-bold text-primary'><img src="/logo.svg" alt="website logo" /></div>
 
