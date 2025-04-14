@@ -33,13 +33,6 @@ const testimonials = [
     role: 'Marketing Specialist',
     image: 'https://pagedone.io/asset/uploads/1696229994.png',
   },
-  {
-    rating: 4.9,
-    text: 'lorem200 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.',
-    name: 'Nina D.',
-    role: 'Marketing Specialist',
-    image: 'https://pagedone.io/asset/uploads/1696229994.png',
-  },
   
 ];
 
