@@ -14,20 +14,21 @@ import { useParams } from 'react-router-dom';
 const ProductsDetails = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
    const dispatch = useDispatch();
-    const singleProduct = useSelector((state) => state);
+    const { singleProduct, singleProductLoading,singleProductError } = useSelector((state) => state.products);
 
     // const productId = window.location.pathname.split('/').pop(); // Get the product ID from the URL
     // otherways you can use react-router-dom to get the productId
 
     const productId = useParams().id; // If using react-router-dom
 
-    console.log(productId,434)
+
 
       useEffect(() => {
         dispatch(fetchSingleProduct(productId));
       }, [dispatch,productId]);
 
-      console.log(singleProduct, 4343)
+      const productInfo = (singleProduct?.product ?? null) || {};
+      console.log(productInfo,555);
   return (
     <div className="bg-white">
       <div className="container mx-auto px-4 py-10 md:py-16 lg:py-20">
@@ -77,22 +78,23 @@ const ProductsDetails = () => {
 
           {/* Product Info */}
           <div className="w-full lg:w-1/2">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Product Name</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">{productInfo.name}</h2>
             <p className="text-gray-600 mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam exercitationem nobis sequi voluptatum...
+            {productInfo.description
+            }
             </p>
             <p className="text-xl font-bold text-primary mb-6">
-              $99.99 <span className="line-through ml-2 text-gray-500">$149.99</span>
+            ${productInfo.price} <span className="line-through ml-2 text-gray-500">$149.99</span>
               <span className="ml-2 bg-primary text-white text-xs rounded-lg py-1 px-1.5">7% off</span>
             </p>
             <div className="flex items-center justify-start gap-4 mb-4">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{4.5}</span>
-                <Rating name="product-rating" value={4.5} readOnly precision={0.5} />
+                <span className="text-sm font-medium">{productInfo.ratings}</span>
+                <Rating name="product-rating" value={productInfo.ratings} readOnly precision={0.5} />
               </div>
               <div className="flex items-center gap-4 text-sm text-gray-500">
-                <p>719K Units sold</p>
-                <p>1.9K Reviewed</p>
+                <p>{productInfo.stock} Items Left</p>
+                <p>{productInfo.numOfReviews} Reviewed</p>
               </div>
             </div>
 

@@ -4,6 +4,9 @@ import axiosInstance from '../axios/axiosInstance';
 // Async thunk for fetching all products
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
   const response = await axiosInstance.get(`/products`);
+  if(response.data.success === false || response.status !== 200) {
+    throw new Error(response.data.message);
+  }
   return response.data;
 });
 
@@ -12,6 +15,10 @@ export const fetchSingleProduct = createAsyncThunk(
   'products/fetchSingleProduct',
   async (productId) => {
     const response = await axiosInstance.get(`/product/${productId}`);
+    
+    if(response.data.success === false || response.status !== 200) {
+      throw new Error(response.data.message);
+    }
     return response.data;
   }
 );
