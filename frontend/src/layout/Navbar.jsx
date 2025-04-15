@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-
+import { IoCartSharp } from "react-icons/io5";
+import { FaRegUserCircle } from "react-icons/fa";
+import { IoSearch } from "react-icons/io5";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -18,7 +20,9 @@ const Navbar = () => {
           </ul>
 
           <div className='hidden md:flex items-center space-x-4'>
-            <button className="bg-primary text-white px-4 py-2 rounded">Where to buy</button>
+            <button className="bg-primary text-white px-4 py-2 rounded"><IoSearch />           </button>
+            <button className="bg-primary text-white px-4 py-2 rounded"><FaRegUserCircle />         </button>
+            <button className="bg-primary text-white px-4 py-2 rounded"><IoCartSharp />            </button>
           </div>
 
           {/* Hamburger icon */}
