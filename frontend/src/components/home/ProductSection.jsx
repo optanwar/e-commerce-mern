@@ -1,51 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Rating from '@mui/material/Rating';
-
-const products = [
-  {
-    id: 1,
-    name: 'Product Name',
-    price: 95.0,
-    rating: 4.5,
-    reviews: 20,
-    image: '/soothing_vapor_bath_400ml_381371177257_0.jpeg',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore blanditiis facere dolorum eligendi a dolorem at perferendis eaque dolore accusantium?',
-  },
-  {
-    id: 1,
-    name: 'Product Name',
-    price: 95.0,
-    rating: 4.5,
-    reviews: 20,
-    image: '/soothing_vapor_bath_400ml_381371177257_0.jpeg',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore blanditiis facere dolorum eligendi a dolorem at perferendis eaque dolore accusantium?',
-  },
-  {
-    id: 1,
-    name: 'Product Name',
-    price: 95.0,
-    rating: 4.5,
-    reviews: 20,
-    image: '/soothing_vapor_bath_400ml_381371177257_0.jpeg',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore blanditiis facere dolorum eligendi a dolorem at perferendis eaque dolore accusantium?',
-  },
-  {
-    id: 1,
-    name: 'Product Name',
-    price: 95.0,
-    rating: 4.5,
-    reviews: 20,
-    image: '/soothing_vapor_bath_400ml_381371177257_0.jpeg',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore blanditiis facere dolorum eligendi a dolorem at perferendis eaque dolore accusantium?',
-  },
-  // Add more product objects here
-];
+import { useSelector, useDispatch } from 'react-redux';
+import  {fetchProducts } from "../../slices/productSlice";
 
 const ProductSection = () => {
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  console.log(products, loading, error);
+
   return (
     <div className="bg-[#EDF7FF]">
       <div className="container mx-auto px-6 py-16 md:py-24">
