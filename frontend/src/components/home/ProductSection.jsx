@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import Rating from '@mui/material/Rating';
 import { useSelector, useDispatch } from 'react-redux';
 import  {fetchProducts } from "../../slices/productSlice";
-
+import {Link} from 'react-router-dom';
+ 
 const ProductSection = () => {
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.products);
@@ -42,9 +43,11 @@ const ProductSection = () => {
               <div className="p-4 flex flex-col h-full justify-between">
                 <div>
                   <div className="mb-2 flex items-center justify-between">
+                    <Link to={`/product/${product._id}`} className="">
                     <p className="text-slate-800 text-xl font-semibold">
                       {product.name}
                     </p>
+                    </Link>
                     <p className="text-primary text-lg font-semibold">
                       ${product.price.toFixed(2)}
                     </p>
