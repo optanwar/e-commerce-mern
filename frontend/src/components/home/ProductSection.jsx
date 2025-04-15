@@ -11,7 +11,8 @@ const ProductSection = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  console.log(products, loading, error);
+  console.log(products.products);
+
 
   return (
     <div className="bg-[#EDF7FF]">
@@ -26,14 +27,14 @@ const ProductSection = () => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-10">
-          {products.map((product) => (
+          {products && products?.products?.map((product) => (
             <div
-              key={product.id}
+              key={product._id}
               className="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg w-full"
             >
               <div className="p-2.5 rounded-xl overflow-hidden">
                 <img
-                  src={product.image}
+                  src={product.images[0]}
                   alt={product.name}
                   className="w-full h-64 object-cover rounded-md"
                 />
@@ -50,12 +51,13 @@ const ProductSection = () => {
                   </div>
                   <div className="flex items-center gap-2 mb-2">
                     <Rating
-                      name={`rating-${product.id}`}
-                      value={product.rating}
+                      name={`rating-${product._id}`}
+                      value={product.ratings}
                       readOnly
                       precision={0.5}
                     />
-                    <span className="text-sm text-slate-500">({product.reviews})</span>
+                    <span className="text-sm text-slate-500">({product.numOfReviews
+                    })</span>
                   </div>
                   <p className="text-slate-600 font-light leading-normal">
                     {product.description}
