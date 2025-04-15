@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { IoCartSharp } from "react-icons/io5";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
+import { Link } from 'react-router-dom';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
 
