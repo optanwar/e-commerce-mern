@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -8,10 +8,26 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import Rating from '@mui/material/Rating';
 import Slider from '@mui/material/Slider';
 import { IoStar } from "react-icons/io5";
-
+import { useSelector, useDispatch } from 'react-redux';
+import  {fetchSingleProduct } from "../../slices/productSlice";
+import { useParams } from 'react-router-dom';
 const ProductsDetails = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+   const dispatch = useDispatch();
+    const singleProduct = useSelector((state) => state);
 
+    // const productId = window.location.pathname.split('/').pop(); // Get the product ID from the URL
+    // otherways you can use react-router-dom to get the productId
+
+    const productId = useParams().id; // If using react-router-dom
+
+    console.log(productId,434)
+
+      useEffect(() => {
+        dispatch(fetchSingleProduct(productId));
+      }, [dispatch,productId]);
+
+      console.log(singleProduct, 4343)
   return (
     <div className="bg-white">
       <div className="container mx-auto px-4 py-10 md:py-16 lg:py-20">
