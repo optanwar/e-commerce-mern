@@ -3,8 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // Uses localStorage by default
 
 import productReducer from '../slices/productSlice';
-import userReducer from '../slices/authSlice';
-import cartReducer from '../slices/cartSlice';
+
 
 // Persist config: Persist both 'user' and 'cart' slices
 const persistConfig = {
@@ -15,9 +14,9 @@ const persistConfig = {
 
 // Combine all reducers
 const rootReducer = combineReducers({
-  user: userReducer, // Auth state will now be persisted
+  
   products: productReducer, // Product state is NOT persisted
-  cart: cartReducer, // Cart state will now be persisted
+
 });
 
 // Apply persistReducer to root reducer
