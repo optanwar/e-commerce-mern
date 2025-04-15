@@ -152,8 +152,8 @@ const ProductsDetails = () => {
         size="small"
         defaultValue={70}
         aria-label="Small"
-         disabled
-     
+
+     color='primary'
         valueLabelDisplay="auto"
       />
       <span>100</span>
