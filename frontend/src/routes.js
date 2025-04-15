@@ -1,7 +1,7 @@
 import React from "react";
 
 const Home = React.lazy(() => import("./components/home/Home.jsx"));
-const Search = React.lazy(() => import("./components/products/Search.jsx"));
+const About = React.lazy(() => import("./components/about/About.jsx"));
 const ProductsDetails = React.lazy(() => import("./components/products/ProductsDetails.jsx"));
 const Products = React.lazy(() => import("./components/products/Products.jsx"));
 const LoginSingUp = React.lazy(()=> import("./components/auth/loginSignup.jsx"));
@@ -20,9 +20,9 @@ export const route = [
   },
   {
     id: 2,
-    name: "Search",
-    path: "/search",
-    component: Search 
+    name: "About",
+    path: "/about",
+    component: About 
   },
   {
     id: 3,
