@@ -142,7 +142,7 @@ const ProductsDetails = () => {
           <div className="md:w-1/2 order-1 md:order-2">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">How to use</h2>
             <p className="text-gray-600 text-base leading-relaxed mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. At nemo quae exercitationem unde...
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa nihil inventore temporibus voluptates repudiandae magnam quasi minima, asperiores impedit? Optio facilis repellat expedita
             </p>
             <p className="text-gray-600 text-base leading-relaxed">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore a, maiores quibusdam...
