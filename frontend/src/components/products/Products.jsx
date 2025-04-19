@@ -12,19 +12,25 @@ function valuetext(value) {
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [keyword , setKeyword] = useState('');
-  const [value, setValue] = React.useState([20, 37]);
-
-
+  
+  
   const dispatch = useDispatch();
-  const { products, loading, error, resultPerPage , totalProducts} = useSelector((state) => state.products);
-
+  const { products, loading, error, resultPerPage , totalProducts, minPrice, maxPrice} = useSelector((state) => state.products);
+  const [price, setPrice] = useState([minPrice, maxPrice]);
 
 
 
 
   useEffect(() => {
-    dispatch(fetchProducts(keyword, currentPage));
-  }, [dispatch, currentPage, keyword]);
+    dispatch(fetchProducts(keyword, currentPage, price[0], price[1]));
+  }, [dispatch, currentPage, keyword, price]);
+  
+
+  useEffect(() => {
+    if (minPrice !== undefined && maxPrice !== undefined) {
+      setPrice([minPrice, maxPrice]);
+    }
+  }, [minPrice, maxPrice]);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -36,12 +42,11 @@ const Products = () => {
   }, 300);
 
   const handlePrice = (event, newValue) => {
-    setValue(newValue);
+    setPrice(newValue);
   };
 
 
-
-console.log(totalProducts,5555)
+console.log(minPrice, maxPrice,5555)
   return (
     <div className="bg-gray-100 min-h-screen py-8">
       <div className="container mx-auto px-4">
@@ -59,12 +64,12 @@ console.log(totalProducts,5555)
             <div>
               <h3 className="text-lg font-semibold mt-4 mb-2">Price Range</h3>
               <Slider
-        getAriaLabel={() => 'Temperature range'}
-        value={value}
-        onChange={handlePrice}
-        valueLabelDisplay="auto"
-        getAriaValueText={valuetext}
-      />
+  value={price}
+  onChange={handlePrice}
+  valueLabelDisplay="auto"
+  min={minPrice}
+  max={maxPrice}
+/>
             </div>
           </aside>
 

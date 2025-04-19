@@ -25,12 +25,18 @@ exports.getAllProducts =catchAsyncErrors( async (req, res) => {
   const productCount = await Product.countDocuments();
   const apiFeature = new ApiFeatures( Product.find(), req.query).search().filter().pagination(resultPerPage);
   const products = await apiFeature.query;  
+  const prices = await Product.find().select('price');
+  const allPrices = prices.map(p => p.price);
+  const minPrice = Math.min(...allPrices);
+  const maxPrice = Math.max(...allPrices);
   res.status(200).json({
     success: true,
     message: 'Products get successfully!',
     products,
     productCount,
-    resultPerPage
+    resultPerPage,
+    minPrice,
+    maxPrice,
   });
 
 });
