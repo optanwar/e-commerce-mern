@@ -17,7 +17,7 @@ const Navbar = () => {
             <li><Link to={`/products`} className="text-gray-700 hover:text-primary">Products</Link></li>
             <li><Link to={`/about`}  className="text-gray-700 hover:text-primary">About</Link></li>
             <li><a href="#services" className="text-gray-700 hover:text-primary">Blogs</a></li>
-            <li><a href="#contact" className="text-gray-700 hover:text-primary">Contact</a></li>
+            <li><Link to={`/contact-us`} className="text-gray-700 hover:text-primary">Contact</Link></li>
           </ul>
 
           <div className='hidden md:flex items-center space-x-4'>
