@@ -4,7 +4,7 @@ const Home = React.lazy(() => import("./components/home/Home.jsx"));
 const About = React.lazy(() => import("./components/about/About.jsx"));
 const ProductsDetails = React.lazy(() => import("./components/products/ProductsDetails.jsx"));
 const Products = React.lazy(() => import("./components/products/Products.jsx"));
-const Contact = React.lazy(() => import("./components/Contact.jsx"));
+const Contact = React.lazy(() => import("./components/contact/Contact.jsx"));
 const LoginSingUp = React.lazy(()=> import("./components/auth/loginSignup.jsx"));
 const Account = React.lazy(()=> import("./components/auth/account.jsx"));
 const ChangePassword = React.lazy(()=> import("./components/auth/changePassword.jsx"));
@@ -72,6 +72,12 @@ export const route = [
     name: "Cart",
     path: "/my-cart",
     component: Cart  
+  },
+  {
+    id: 11,
+    name: "Contact Us",
+    path: "/contact-us",
+    component: Contact 
   }
  
 ];
