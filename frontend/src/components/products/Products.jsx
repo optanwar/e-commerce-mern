@@ -1,83 +1,144 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Rating from '@mui/material/Rating';
 import { useSelector, useDispatch } from 'react-redux';
-import  {fetchProducts } from "../../slices/productSlice";
-import {Link} from 'react-router-dom';
-
+import { fetchProducts } from '../../slices/productSlice';
+import { Link } from 'react-router-dom';
+import Pagination from '@mui/material/Pagination';
+import { debounce } from 'lodash';
+import Slider from '@mui/material/Slider';
+function valuetext(value) {
+  return `${value}°C`;
+}
 const Products = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [keyword , setKeyword] = useState('');
+  const [value, setValue] = React.useState([20, 37]);
+
+
   const dispatch = useDispatch();
-  const { products, loading, error } = useSelector((state) => state.products);
+  const { products, loading, error, resultPerPage , totalProducts} = useSelector((state) => state.products);
+
+
+
+
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    dispatch(fetchProducts(keyword, currentPage));
+  }, [dispatch, currentPage, keyword]);
 
-  console.log(products.products);
- 
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const handleSearch = debounce((value) => {
+    setCurrentPage(1); // Reset to first page
+    setKeyword(value);
+  }, 300);
+
+  const handlePrice = (event, newValue) => {
+    setValue(newValue);
+  };
+
+
+
+console.log(totalProducts,5555)
   return (
-    <div className='bg-gray-100 min-h-screen py-10'>
-      <div className='container mx-auto px-4'>
-        <div className='flex flex-col md:flex-row gap-10'>
-          
-<div>
-  <h1>Filters</h1>
-  <div>
-    <input type="text" placeholder='Search products...' name="search" className='border border-gray-300 font-roboto font-normal text-xs md:text-sm rounded-md outline-none px-2 py-2' />
-  </div>
-</div>
-<div>
-  <h1>Our Products</h1>
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products && products?.products?.map((product) => (
-            <div
-              key={product._id}
-              className="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg w-full"
-            >
-              <div className="p-2.5 rounded-xl overflow-hidden">
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="w-full h-64 object-cover rounded-md"
-                />
-              </div>
-              <div className="p-4 flex flex-col h-full justify-between">
-                <div>
-                  <div className="mb-2 flex items-center justify-between">
-                    <Link to={`/product/${product._id}`} className="">
-                    <p className="text-slate-800 text-xl font-semibold">
-                      {product.name}
-                    </p>
-                    </Link>
-                    <p className="text-primary text-lg font-semibold">
-                      ${product.price.toFixed(2)}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Rating
-                      name={`rating-${product._id}`}
-                      value={product.ratings}
-                      readOnly
-                      precision={0.5}
-                    />
-                    <span className="text-sm text-slate-500">({product.numOfReviews
-                    })</span>
-                  </div>
-                  <p className="text-slate-600 font-light leading-normal">
-                    {product.description}
-                  </p>
-                </div>
-                <button
-                  className=" rounded-md bg-primary py-2 px-4 text-sm text-white shadow-md transition-all hover:bg-cyan-700 focus:bg-cyan-700"
-                  type="button"
-                >
-                  Buy Now
-                </button>
-              </div>
+    <div className="bg-gray-100 min-h-screen py-8">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Filters */}
+          <aside className="w-full lg:w-1/4 bg-white rounded-lg shadow p-4">
+            <h2 className="text-xl font-semibold mb-4">Filters</h2>
+            <input
+               type="text"
+               placeholder="Search products..."
+               onChange={(e) => handleSearch(e.target.value)}
+              className="w-full border border-gray-300 text-sm rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+            />
+
+            <div>
+              <h3 className="text-lg font-semibold mt-4 mb-2">Price Range</h3>
+              <Slider
+        getAriaLabel={() => 'Temperature range'}
+        value={value}
+        onChange={handlePrice}
+        valueLabelDisplay="auto"
+        getAriaValueText={valuetext}
+      />
             </div>
-          ))}
+          </aside>
+
+          {/* Products Section */}
+          <main className="w-full lg:w-3/4">
+            <h2 className="text-2xl font-bold mb-6">Our Products</h2>
+
+            {products?.products?.length > 0 ? (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+    {products.products.map((product) => (
+      <div
+        key={product._id}
+        className="flex flex-col bg-white border border-gray-200 rounded-lg shadow hover:shadow-md transition-shadow duration-300"
+      >
+        {/* Product Card */}
+        <div className="p-2.5">
+          <img
+            src={`https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`}
+            alt={product.name}
+            className="w-full h-64 object-cover rounded-md"
+          />
         </div>
-</div>
-        </div> 
+
+        <div className="p-4 flex flex-col justify-between flex-grow">
+          <div>
+            <div className="mb-2 flex items-center justify-between">
+              <Link to={`/product/${product._id}`}>
+                <p className="text-lg font-semibold text-slate-800 line-clamp-1">{product.name}</p>
+              </Link>
+              <p className="text-primary text-md font-bold">${product.price.toFixed(2)}</p>
+            </div>
+
+            <div className="flex items-center gap-1 mb-2">
+              <Rating
+                name={`rating-${product._id}`}
+                value={product.ratings}
+                readOnly
+                precision={0.5}
+                size="small"
+              />
+              <span className="text-sm text-gray-500">({product.numOfReviews})</span>
+            </div>
+
+            <p className="text-sm text-slate-600 line-clamp-2">{product.description}</p>
+          </div>
+
+          <button
+            className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors"
+            type="button"
+          >
+            Buy Now
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+) : (
+  <div className="text-center text-gray-500 text-lg py-10">
+    No products found for "<span className="font-semibold">{keyword}</span>"
+  </div>
+)}
+            {totalProducts > resultPerPage && (
+  <div className="flex justify-center mt-8">
+    <Pagination
+      count={Math.ceil(totalProducts / resultPerPage)}
+      page={currentPage}
+      onChange={handlePageChange}
+      variant="outlined"
+      color="primary"
+    />
+  </div>
+)}
+          </main>
+        </div>
       </div>
     </div>
   );

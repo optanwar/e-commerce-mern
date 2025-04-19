@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../axios/axiosInstance';
 
 // Async thunk for fetching all products
-export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  const response = await axiosInstance.get(`/products`);
+export const fetchProducts = createAsyncThunk('products/fetchProducts', async (keyword = '', page = 1) => {
+  const response = await axiosInstance.get(`/products?keyword=${keyword}&page=${page}`);
   if(response.data.success === false || response.status !== 200) {
     throw new Error(response.data.message);
   }
@@ -28,6 +28,8 @@ const productSlice = createSlice({
   initialState: {
     products: [],
     singleProduct: null,
+    resultPerPage: 0,
+    totalProducts: 0,
     loading: false,
     error: null,
     singleProductLoading: false,
@@ -44,6 +46,8 @@ const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
         state.products = action.payload;
+        state.resultPerPage = action.payload.resultPerPage; // Assuming the response contains this field
+        state.totalProducts = action.payload.productCount; // Assuming the response contains this field
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
