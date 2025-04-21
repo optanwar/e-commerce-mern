@@ -60,7 +60,7 @@ const Footer = () => {
         <div className="py-7 border-t border-gray-700">
           <div className="flex items-center justify-center flex-col lg:justify-between lg:flex-row">
             <span className="text-sm text-gray-300 text-center lg:text-left">
-              © <a href="https://pagedone.io/" className="underline">Company Name</a> {new Date().getFullYear()}, All rights reserved.
+              © <a href="https://optanwar.vercel.app/" className="underline">OP TANWAR</a> {new Date().getFullYear()}, All rights reserved.
             </span>
             <div className="flex mt-4 space-x-4 sm:justify-center lg:mt-0">
               {[

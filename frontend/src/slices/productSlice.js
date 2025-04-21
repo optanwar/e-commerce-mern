@@ -4,15 +4,10 @@ import axiosInstance from '../axios/axiosInstance';
 // Async thunk for fetching all products
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
-  async ({ keyword = '', page = 1, minPrice = 0, maxPrice = 1000 }, thunkAPI) => {
+  async ({ keyword = '', page = 1 }, thunkAPI) => {
     try {
       const response = await axiosInstance.get('/products', {
-        params: {
-          keyword,
-          page,
-          'price[gte]': minPrice,
-          'price[lte]': maxPrice+1000,
-        },
+        params: { keyword, page },
       });
 
       if (response.data.success === false || response.status !== 200) {
@@ -56,8 +51,6 @@ const productSlice = createSlice({
     error: null,
     singleProductLoading: false,
     singleProductError: null,
-    minPrice: undefined, // Changed to undefined so we can conditionally handle
-    maxPrice: undefined,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -72,8 +65,6 @@ const productSlice = createSlice({
         state.products = action.payload;
         state.resultPerPage = action.payload.resultPerPage || 0;
         state.totalProducts = action.payload.productCount || 0;
-        state.minPrice = action.payload.minPrice;
-        state.maxPrice = action.payload.maxPrice;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;

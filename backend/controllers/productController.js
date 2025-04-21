@@ -29,6 +29,7 @@ exports.getAllProducts =catchAsyncErrors( async (req, res) => {
   const allPrices = prices.map(p => p.price);
   const minPrice = Math.min(...allPrices);
   const maxPrice = Math.max(...allPrices);
+  console.log(minPrice, maxPrice);
   res.status(200).json({
     success: true,
     message: 'Products get successfully!',
