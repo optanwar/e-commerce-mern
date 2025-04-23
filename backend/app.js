@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Replace with your frontend origin
+  origin: ['http://localhost:5173', 'http://192.168.1.6:5173'],
     credentials: true,
   }));
 
