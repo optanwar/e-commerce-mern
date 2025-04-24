@@ -10,7 +10,7 @@ const Navbar = () => {
     <div className='w-full bg-white shadow sticky top-0 z-50'>
       <div className='container mx-auto px-4 '>
         <nav className='flex justify-between items-center py-4'>
-          <div className='text-2xl font-bold text-primary'><img src="/logo.svg" alt="website logo" /></div>
+          <div className='text-2xl font-bold text-primary'>  <Link to={`/`} className="text-gray-700 hover:text-primary"><img src="/logo.svg" alt="website logo" /> </Link></div>
 
           {/* Desktop Menu */}
           <ul className='hidden md:flex space-x-6'>
@@ -22,7 +22,8 @@ const Navbar = () => {
 
           <div className='hidden md:flex items-center space-x-4'>
             <button className="bg-primary text-white px-4 py-2 rounded"><IoSearch />           </button>
-            <button className="bg-primary text-white px-4 py-2 rounded"><FaRegUserCircle />         </button>
+            <Link to={`/login`} className="text-gray-700 hover:text-primary"><FaRegUserCircle />    </Link>
+           
             <button className="bg-primary text-white px-4 py-2 rounded"><IoCartSharp />            </button>
           </div>
 
