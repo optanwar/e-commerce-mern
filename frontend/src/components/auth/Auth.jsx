@@ -105,7 +105,7 @@ const LoginSignup = () => {
 
         {/* Signup Form */}
         <CustomTabPanel value={value} index={1}>
-          <h2 className='text-2xl font-semibold mb-4'>Create Account </h2>
+          <h2 className='text-2xl font-semibold mb-4'>Create Account</h2>
           <form>
             <input
               type="text"
