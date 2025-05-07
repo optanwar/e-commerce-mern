@@ -4,6 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import SignUp from './SignUp';
+import Login from './Login';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -36,24 +37,15 @@ function a11yProps(index) {
 
 const LoginSignup = () => {
   const [value, setValue] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [email, setEmail] = useState('');
+ 
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleForgotPassword = () => {
-    setShowModal(true);
-  };
+  
 
-  const handleSendReset = (e) => {
-    e.preventDefault();
-    console.log('Reset email sent to:', email);
-    // API call logic goes here
-    setShowModal(false);
-    setEmail('');
-  };
 
   return (
     <div className='bg-[#C7E8FF] min-h-screen flex items-center justify-center px-4'>
@@ -74,34 +66,7 @@ const LoginSignup = () => {
 
         {/* Login Form */}
         <CustomTabPanel value={value} index={0}>
-          <h2 className='text-2xl font-semibold mb-4'>Login</h2>
-          <form>
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full p-2 mb-3 border rounded"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full p-2 mb-2 border rounded"
-            />
-            <div className="text-right mb-3">
-              <button
-                type="button"
-                onClick={handleForgotPassword}
-                className="text-sm text-blue-500 hover:underline"
-              >
-                Forgot Password?
-              </button>
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-            >
-              Login
-            </button>
-          </form>
+        <Login/>
         </CustomTabPanel>
 
         {/* Signup Form */}
@@ -111,39 +76,7 @@ const LoginSignup = () => {
         </CustomTabPanel>
       </div>
 
-      {/* Forgot Password Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-full max-w-sm shadow-lg relative">
-            <h2 className="text-xl font-semibold mb-4">Reset Password</h2>
-            <form onSubmit={handleSendReset}>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-2 mb-4 border rounded"
-                required
-              />
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="px-4 py-2 border rounded hover:bg-gray-100"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                  Send
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+     
     </div>
   );
 };
