@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import SignUp from './SignUp';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -105,30 +106,8 @@ const LoginSignup = () => {
 
         {/* Signup Form */}
         <CustomTabPanel value={value} index={1}>
-          <h2 className='text-2xl font-semibold mb-4'>Create Account</h2>
-          <form>
-            <input
-              type="text"
-              placeholder="Name"
-              className="w-full p-2 mb-3 border rounded"
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full p-2 mb-3 border rounded"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full p-2 mb-3 border rounded"
-            />
-            <button
-              type="submit"
-              className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
-            >
-              Sign Up
-            </button>
-          </form>
+         
+         <SignUp />
         </CustomTabPanel>
       </div>
 
