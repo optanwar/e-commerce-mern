@@ -14,6 +14,7 @@ const Login = () => {
   const [resetError, setResetError] = useState('');
 
   const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+  console.log(isAuthenticated,54543)
 
   useEffect(() => {
     if (isAuthenticated) {

@@ -5,8 +5,10 @@ import axiosInstance from '../axios/axiosInstance';
 export const signupUser = createAsyncThunk(
   'auth/signupUser',
   async (userData, { rejectWithValue }) => {
+   
     try {
       const response = await axiosInstance.post('/registerUser', userData);
+     
 
       if (response.data.success === false || response.status !== 200) {
         throw new Error(response.data.message);
