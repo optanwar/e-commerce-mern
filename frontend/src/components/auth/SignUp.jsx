@@ -43,7 +43,7 @@ const SignUp = () => {
       return;
     }
 
-    // Plain object, not FormData
+
     dispatch(signupUser(formData));
   };
 
