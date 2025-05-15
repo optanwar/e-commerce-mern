@@ -82,7 +82,7 @@ const Cart = () => {
 
                 <div className="flex items-center gap-4">
                   <p className="font-semibold">
-                    ${(item.product.price * item.quantity).toFixed(2)}
+                    {/* ${(item.product.price * item.quantity).toFixed(2)} */}
                   </p>
                   <button
                     onClick={() => handleRemove(item.product.productId)}
@@ -98,7 +98,7 @@ const Cart = () => {
             <div className="flex justify-between items-center pt-6 border-t mt-6">
               <div className="text-lg font-medium">Total ({totalQuantity} items)</div>
               <div className="text-xl font-bold text-cyan-600">
-                ${totalPrice.toFixed(2)}
+                {/* ${totalPrice.toFixed(2)} */}
               </div>
             </div>
 
