@@ -9,7 +9,8 @@ import Rating from '@mui/material/Rating';
 import Slider from '@mui/material/Slider';
 import { IoStar } from "react-icons/io5";
 import { useSelector, useDispatch } from 'react-redux';
-import  {fetchSingleProduct } from "../../slices/productSlice";
+import  {fetchSingleProduct  } from "../../slices/productSlice";
+import { addToCart } from '../../slices/cartSlice';
 import { useParams } from 'react-router-dom';
 const ProductsDetails = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -129,7 +130,11 @@ const ProductsDetails = () => {
       </button>
     </div>
 
-            <button className="bg-primary text-white px-6 py-2 rounded-md hover:bg-cyan-700 transition">
+            <button  onClick={() => {
+    if (productInfo && productInfo._id) {
+      dispatch(addToCart({ product: productInfo, quantity }));
+    }
+  }} className="bg-primary text-white px-6 py-2 rounded-md hover:bg-cyan-700 transition">
               Add to Cart
             </button>
           </div>

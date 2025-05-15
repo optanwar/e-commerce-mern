@@ -4,13 +4,14 @@ import storage from 'redux-persist/lib/storage'; // Uses localStorage by default
 
 import productReducer from '../slices/productSlice';
 import authReducer from '../slices/authSlice';
+import cartReducer from '../slices/cartSlice';
 
 
 // Persist config: Persist both 'user' and 'cart' slices
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth',"products"], // Persist both 'user' and 'cart' slices
+  whitelist: ['auth',"products", "cart"], // Persist both 'user' and 'cart' slices
 };
 
 // Combine all reducers
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   
   products: productReducer, // Product state is NOT persisted
   auth: authReducer,
+  cart: cartReducer, // Cart state is NOT persisted
 
 });
 
