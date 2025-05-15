@@ -10,7 +10,6 @@ import { IoClose } from 'react-icons/io5';
 const Cart = () => {
   const dispatch = useDispatch();
   const { cartItems, totalPrice, totalQuantity } = useSelector((state) => state.cart);
-  console.log(totalPrice, "cartItems")
 
   const handleQuantityChange = (productId, newQty) => {
     if (newQty > 0) {
@@ -58,13 +57,15 @@ const Cart = () => {
                   />
                   <div>
                     <h4 className="text-lg font-medium">{item.product.name}</h4>
-                    <p className="text-gray-500">${item.product.price ? item.product.price.toFixed(2) : '0.00'}</p>
+                    <p className="text-gray-500">
+                      ${item.product.price ? item.product.price.toFixed(2) : '0.00'}
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-4">
                   <button
-                    onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
+                    onClick={() => handleQuantityChange(item.product.productId, item.quantity - 1)}
                     className="bg-gray-200 w-8 h-8 flex items-center justify-center rounded hover:bg-gray-300"
                     disabled={item.quantity <= 1}
                   >
@@ -72,7 +73,7 @@ const Cart = () => {
                   </button>
                   <span className="w-6 text-center">{item.quantity}</span>
                   <button
-                    onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
+                    onClick={() => handleQuantityChange(item.product.productId, item.quantity + 1)}
                     className="bg-gray-200 w-8 h-8 flex items-center justify-center rounded hover:bg-gray-300"
                   >
                     +
@@ -84,7 +85,7 @@ const Cart = () => {
                     ${(item.product.price * item.quantity).toFixed(2)}
                   </p>
                   <button
-                    onClick={() => handleRemove(item.productId)}
+                    onClick={() => handleRemove(item.product.productId)}
                     className="text-red-500 hover:text-red-700"
                     title="Remove item"
                   >
