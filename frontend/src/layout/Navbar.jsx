@@ -23,8 +23,9 @@ const Navbar = () => {
           <div className='hidden md:flex items-center space-x-4'>
             <button className="bg-primary text-white px-4 py-2 rounded"><IoSearch />           </button>
             <Link to={`/login`} className="text-gray-700 hover:text-primary"><FaRegUserCircle />    </Link>
+            <Link to={`/my-cart`} className="text-gray-700 hover:text-primary"><IoCartSharp />     </Link>
            
-            <button className="bg-primary text-white px-4 py-2 rounded"><IoCartSharp />            </button>
+           
           </div>
 
           {/* Hamburger icon */}

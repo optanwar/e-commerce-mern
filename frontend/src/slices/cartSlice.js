@@ -41,16 +41,16 @@ const cartSlice = createSlice({
       state.totalPrice = 0;
     },
 
-    calculateTotals: (state) => {
-      let quantity = 0;
-      let price = 0;
-      state.cartItems.forEach(item => {
-        quantity += item.quantity;
-        price += item.price * item.quantity;
-      });
-      state.totalQuantity = quantity;
-      state.totalPrice = price;
-    },
+   calculateTotals: (state) => {
+  let quantity = 0;
+  let price = 0;
+  state.cartItems.forEach(item => {
+    quantity += item.quantity;
+    price += (item.product.price || 0) * (item.quantity || 0); // defensive coding
+  });
+  state.totalQuantity = quantity;
+  state.totalPrice = price;
+},
   },
 });
 
