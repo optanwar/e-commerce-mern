@@ -13,13 +13,17 @@ import  {fetchSingleProduct } from "../../slices/productSlice";
 import { useParams } from 'react-router-dom';
 const ProductsDetails = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [quantity, setQuantity] = useState(1);
    const dispatch = useDispatch();
-    const { singleProduct, singleProductLoading,singleProductError } = useSelector((state) => state.products);
+   
+    const { singleProduct, singleProductLoading, singleProductError } = useSelector((state) => state.products);
 
     // const productId = window.location.pathname.split('/').pop(); // Get the product ID from the URL
     // otherways you can use react-router-dom to get the productId
-
+ const productInfo = (singleProduct?.product ?? null) || {};
     const productId = useParams().id; // If using react-router-dom
+
+ console.log(productInfo.stock,5454)
 
 
 
@@ -27,8 +31,20 @@ const ProductsDetails = () => {
         dispatch(fetchSingleProduct(productId));
       }, [dispatch,productId]);
 
-      const productInfo = (singleProduct?.product ?? null) || {};
-      console.log(productInfo,555);
+    const increaseQuantity = () => {
+    if (quantity < productInfo.stock) {
+      setQuantity((prev) => prev + 1);
+    }
+  };
+
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
+
+     
+     
   return (
     <div className="bg-white">
       <div className="container mx-auto px-4 py-10 md:py-16 lg:py-20">
@@ -97,12 +113,21 @@ const ProductsDetails = () => {
                 <p>{productInfo.numOfReviews} Reviewed</p>
               </div>
             </div>
-
-            <div className="flex items-center gap-4 mb-6">
-              <button className="bg-gray-200 px-2 py-1 rounded">-</button>
-              <span className="text-lg">1</span>
-              <button className="bg-gray-200 px-2 py-1 rounded">+</button>
-            </div>
+ <div className="flex items-center gap-4 mb-6">
+      <button
+        onClick={decreaseQuantity}
+        className="bg-gray-200 px-2 py-1 rounded"
+      >
+        -
+      </button>
+      <span className="text-lg">{quantity}</span>
+      <button
+        onClick={increaseQuantity}
+        className="bg-gray-200 px-2 py-1 rounded"
+      >
+        +
+      </button>
+    </div>
 
             <button className="bg-primary text-white px-6 py-2 rounded-md hover:bg-cyan-700 transition">
               Add to Cart
