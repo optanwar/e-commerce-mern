@@ -6,6 +6,7 @@ import {
   removeFromCart,
   clearCart,
 } from '../../slices/cartSlice';
+import { Link } from 'react-router-dom';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -86,12 +87,12 @@ const Cart = () => {
 
         <div className='flex gap-4'>
 
-        <button
-          onClick={() => dispatch(clearCart())}
+        <Link to={"/shipping-details"}
+         
           className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded font-semibold transition"
         >
           Checkout
-        </button>
+        </Link>
         <button
           onClick={() => dispatch(clearCart())}
           className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded font-semibold transition"
