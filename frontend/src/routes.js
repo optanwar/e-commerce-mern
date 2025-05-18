@@ -9,7 +9,7 @@ const LoginSingUp = React.lazy(()=> import("./components/auth/Auth.jsx"));
 
 
 const Cart = React.lazy(()=> import("./components/Cart/Cart.jsx"));
-const Shipping = React.lazy(()=> import("./components/cart/Shipping.jsx"));
+const CheckoutStepper = React.lazy(()=> import("./components/checkout/CheckoutStepper.jsx"));
 
 
 export const route = [
@@ -81,9 +81,9 @@ export const route = [
   },
   {
     id: 12,
-    name: "Shipping",
+    name: " Checkout Stepper",
     path: "/shipping-details",
-    component: Shipping 
+    component:  CheckoutStepper 
   }
  
 ];
