@@ -10,6 +10,7 @@ import {
 const Cart = () => {
   const dispatch = useDispatch();
   const { items, totalAmount, totalQuantity } = useSelector((state) => state.cart);
+  console.log(items, 'items');
 
   if (items.length === 0) {
     return (
@@ -26,7 +27,7 @@ const Cart = () => {
       <div className="space-y-6">
         {items.map((item) => (
           <div
-            key={item.id}
+            key={item._id}
             className="flex items-center justify-between border-b pb-4"
           >
             {/* Product Info */}
@@ -46,7 +47,7 @@ const Cart = () => {
             <div className="flex items-center space-x-2">
               <button
                 aria-label={`Decrease quantity of ${item.name}`}
-                onClick={() => dispatch(decreaseQuantity(item.id))}
+                onClick={() => dispatch(decreaseQuantity(item._id))}
                 className="px-3 py-1 border rounded hover:bg-gray-100 transition"
               >
                 –
@@ -66,7 +67,7 @@ const Cart = () => {
 
               <button
                 aria-label={`Remove ${item.name} from cart`}
-                onClick={() => dispatch(removeFromCart(item.id))}
+                onClick={() => dispatch(removeFromCart(item._id))}
                 className="ml-6 text-red-600 hover:underline font-semibold"
               >
                 Remove
