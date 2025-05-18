@@ -1,4 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const ShippingDetails = lazy(() => import('./ShippingDetails'));
+const ConfirmOrder = lazy(() => import('./ConfirmOrder'));
+const Payment = lazy(() => import('./Payment'));
 
 const steps = ['Shipping Details', 'Confirm Order', 'Payment'];
 
@@ -76,109 +81,40 @@ const CheckoutStepper = () => {
         ))}
       </div>
 
-      {/* Content */}
-      <div className="bg-white rounded-lg shadow p-6">
-        {activeStep === 0 && (
-          <form className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium">Full Name</label>
-              <input
-                type="text"
-                name="fullName"
-                className="w-full border rounded p-2 mt-1"
-                value={formData.fullName}
-                onChange={handleChange}
-              />
-              {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName}</p>}
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Email</label>
-              <input
-                type="email"
-                name="email"
-                className="w-full border rounded p-2 mt-1"
-                value={formData.email}
-                onChange={handleChange}
-              />
-              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Address</label>
-              <input
-                type="text"
-                name="address"
-                className="w-full border rounded p-2 mt-1"
-                value={formData.address}
-                onChange={handleChange}
-              />
-              {errors.address && <p className="text-red-500 text-sm">{errors.address}</p>}
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium">City</label>
-                <input
-                  type="text"
-                  name="city"
-                  className="w-full border rounded p-2 mt-1"
-                  value={formData.city}
-                  onChange={handleChange}
-                />
-                {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
-              </div>
-              <div>
-                <label className="block text-sm font-medium">Postal Code</label>
-                <input
-                  type="text"
-                  name="postalCode"
-                  className="w-full border rounded p-2 mt-1"
-                  value={formData.postalCode}
-                  onChange={handleChange}
-                />
-                {errors.postalCode && <p className="text-red-500 text-sm">{errors.postalCode}</p>}
-              </div>
-            </div>
-          </form>
-        )}
-
-        {activeStep === 1 && (
-          <div className="space-y-2">
-            <h2 className="text-lg font-semibold mb-4">Confirm Your Details</h2>
-            <p><strong>Name:</strong> {formData.fullName}</p>
-            <p><strong>Email:</strong> {formData.email}</p>
-            <p><strong>Address:</strong> {formData.address}</p>
-            <p><strong>City:</strong> {formData.city}</p>
-            <p><strong>Postal Code:</strong> {formData.postalCode}</p>
-          </div>
-        )}
-
-        {activeStep === 2 && (
-          <div className="text-center">
-            <h2 className="text-lg font-semibold mb-2">💳 Payment</h2>
-            <p className="mb-4">Payment gateway integration goes here.</p>
-            <button
-              onClick={handleNext}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+      {/* Step Content with Animation */}
+      <div className="bg-white rounded-lg shadow p-6 min-h-[200px]">
+        <Suspense fallback={<div>Loading...</div>}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeStep}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.3 }}
             >
-              Complete Order
-            </button>
-          </div>
-        )}
-
-        {activeStep === steps.length && (
-          <div className="text-center">
-            <h2 className="text-lg font-semibold mb-2">🎉 Order Completed!</h2>
-            <p className="mb-4">Thank you for your purchase.</p>
-            <button
-              onClick={handleReset}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-              Start Over
-            </button>
-          </div>
-        )}
+              {activeStep === 0 && (
+                <ShippingDetails formData={formData} errors={errors} handleChange={handleChange} />
+              )}
+              {activeStep === 1 && <ConfirmOrder formData={formData} />}
+              {activeStep === 2 && <Payment onComplete={handleNext} />}
+              {activeStep === steps.length && (
+                <div className="text-center">
+                  <h2 className="text-lg font-semibold mb-2">🎉 Order Completed!</h2>
+                  <p className="mb-4">Thank you for your purchase.</p>
+                  <button
+                    onClick={handleReset}
+                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  >
+                    Start Over
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </Suspense>
       </div>
 
-      {/* Navigation Buttons */}
+      {/* Navigation */}
       {activeStep < steps.length && (
         <div className="flex justify-between mt-6">
           <button
