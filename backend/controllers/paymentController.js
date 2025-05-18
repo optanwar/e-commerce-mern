@@ -1,6 +1,6 @@
 const catchAyncError = require("../middleware/catchAsyncErrors");
 
-const stripe = require("stripe")(process.env.SRIPE_API_SECRET);
+const stripe = require("stripe")(process.env.STRIPE_API_SECRET);
 
 
 // Process Stripe Payments
@@ -17,3 +17,12 @@ exports.processPayment = catchAyncError(async (req, res) => {
     });
     }
     );
+
+
+    exports.sendStripeApiKey = catchAyncError(async (req, res) => {
+        res.status(200).json({
+            stripeApiKey: process.env.STRIPE_API_SECRET,
+        });
+    }   
+    );
+
