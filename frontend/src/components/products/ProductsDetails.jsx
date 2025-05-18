@@ -132,7 +132,8 @@ const ProductsDetails = () => {
 
             <button  onClick={() => {
     if (productInfo && productInfo._id) {
-      dispatch(addToCart({ product: productInfo, quantity }));
+      dispatch(addToCart({  product: productInfo, quantity }));
+      
     }
   }} className="bg-primary text-white px-6 py-2 rounded-md hover:bg-cyan-700 transition">
               Add to Cart
