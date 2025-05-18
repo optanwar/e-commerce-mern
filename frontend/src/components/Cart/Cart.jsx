@@ -83,12 +83,23 @@ const Cart = () => {
           Total ({totalQuantity} item{totalQuantity !== 1 ? 's' : ''}):{' '}
           <span className="text-green-600">${totalAmount.toFixed(2)}</span>
         </div>
+
+        <div className='flex gap-4'>
+
+        <button
+          onClick={() => dispatch(clearCart())}
+          className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded font-semibold transition"
+        >
+          Checkout
+        </button>
         <button
           onClick={() => dispatch(clearCart())}
           className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded font-semibold transition"
         >
-          Clear Cart
+          Clear Cart 
         </button>
+        </div>
+        
       </div>
     </div>
   );
