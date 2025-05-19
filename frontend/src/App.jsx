@@ -1,12 +1,29 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AnnouncementBar from "./layout/AnnouncementBar";
 import Loader from "./layout/Loader";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 import { route } from "./routes";
+import axiosInstance from './axios/axiosInstance'
 
 const App = () => {
+   const [stripeApiKey, setStripeApiKey] = useState("");
+
+  async function getStripeApiKey() {
+    try {
+      const response = await axiosInstance.get('"/stripeapikey"'); 
+      console.log(response, 22);
+    } catch (error) {
+      console.error("Failed to fetch Stripe API key:", error.message);
+    }
+  }
+  console.log(stripeApiKey, 44);
+
+  useEffect(() => {
+    getStripeApiKey();
+  }, []);
+
   return (
     <div>
       <Router>
