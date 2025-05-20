@@ -8,21 +8,7 @@ import { route } from "./routes";
 import axiosInstance from './axios/axiosInstance'
 
 const App = () => {
-   const [stripeApiKey, setStripeApiKey] = useState("");
-
-  async function getStripeApiKey() {
-    try {
-      const response = await axiosInstance.get('"/stripeapikey"'); 
-      console.log(response, 22);
-    } catch (error) {
-      console.error("Failed to fetch Stripe API key:", error.message);
-    }
-  }
-  console.log(stripeApiKey, 44);
-
-  useEffect(() => {
-    getStripeApiKey();
-  }, []);
+  
 
   return (
     <div>
