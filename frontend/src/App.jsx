@@ -5,77 +5,59 @@ import Loader from "./layout/Loader";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 import { route } from "./routes";
-import axiosInstance from './axios/axiosInstance'
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import { fetchStripeApiKey } from './slices/stripeSlice'; // import the new thunk
 
 const App = () => {
-  const [stripeApiKey, setStripeApiKey] = useState("");
-  const [stripePromise, setStripePromise] = useState(stripeApiKey);
+  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
+  const { apiKey, loading } = useSelector((state) => state.stripe);
 
+  const [stripePromise, setStripePromise] = useState(null);
 
   useEffect(() => {
-  if (!token) return;
-
-  async function fetchKey() {
-    try {
-      const response = await axiosInstance.get("/stripeapikey", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const key = response.data.stripeApiKey;
-      setStripeApiKey(key);
-      setStripePromise(loadStripe(key)); // ✅ FIX HERE
-    } catch (error) {
-      console.error("Error fetching Stripe key:", error);
+    if (token) {
+      dispatch(fetchStripeApiKey(token));
     }
+  }, [dispatch, token]);
+
+  useEffect(() => {
+    if (apiKey) {
+      setStripePromise(loadStripe(apiKey));
+    }
+  }, [apiKey]);
+
+  if (loading) {
+    return <Loader />;
   }
-
-  fetchKey();
-}, [token]);
-
-
 
   return (
     <div>
       <Router>
-   {/* Announcement Bar */}
-      <AnnouncementBar/>
-        {/* Navbar */}
+        <AnnouncementBar />
         <Navbar />
 
-        {/* Route Configuration */}
-         <Suspense fallback={<div><Loader /></div>}>
-          {
-            stripePromise ? (
-              <Elements stripe={stripePromise}>
-                <Routes>
-                  {route.map(({ id, path, component: Component }) => (
-                    <Route key={id} path={path} element={<Component />} />
-                  ))}
-                </Routes>
-              </Elements>
-            ) : (
+        <Suspense fallback={<Loader />}>
+          {stripePromise ? (
+            <Elements stripe={stripePromise}>
               <Routes>
                 {route.map(({ id, path, component: Component }) => (
                   <Route key={id} path={path} element={<Component />} />
                 ))}
               </Routes>
-            )
-          }
+            </Elements>
+          ) : (
+            <Routes>
+              {route.map(({ id, path, component: Component }) => (
+                <Route key={id} path={path} element={<Component />} />
+              ))}
+            </Routes>
+          )}
         </Suspense>
-        {/* <Suspense fallback={<div><Loader /></div>}>
-          <Routes>
-            {route.map(({ id, path, component: Component }) => (
-              <Route key={id} path={path} element={<Component />} />
-            ))}
-          </Routes>
-        </Suspense> */}
-        <Footer/>
+
+        <Footer />
       </Router>
     </div>
   );
