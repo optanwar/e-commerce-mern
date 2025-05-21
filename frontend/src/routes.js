@@ -92,6 +92,12 @@ export const route = [
     name: "My Orders",
     path: "/my-orders",
     component: MyOrders
+  },
+  {
+    id: 14,
+    name: "Blog",
+    path: "/blog",
+    component: Blog
   }
  
 ];
