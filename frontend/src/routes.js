@@ -6,6 +6,7 @@ const ProductsDetails = React.lazy(() => import("./components/products/ProductsD
 const Products = React.lazy(() => import("./components/products/Products.jsx"));
 const Contact = React.lazy(() => import("./components/contact/Contact.jsx"));
 const LoginSingUp = React.lazy(()=> import("./components/auth/Auth.jsx"));
+const Blog = React.lazy(()=> import("./components/blog/Blog.jsx"));
 
 
 const Cart = React.lazy(()=> import("./components/Cart/Cart.jsx"));
