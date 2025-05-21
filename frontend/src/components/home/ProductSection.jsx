@@ -12,7 +12,7 @@ const ProductSection = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  console.log(products.products);
+  
 
 
   return (

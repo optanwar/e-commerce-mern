@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser, forgotPasswordUser } from '../../slices/authSlice'; // Adjust path if needed
+import { loginUser, forgotPasswordUser, setCredentials } from '../../slices/authSlice'; // Adjust path if needed
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -13,13 +13,15 @@ const Login = () => {
   const [formErrors, setFormErrors] = useState({});
   const [resetError, setResetError] = useState('');
 
-  const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+  const { loading, error, isAuthenticated, token} = useSelector((state) => state.auth);
+  console.log('token:', token);
   
 
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/'); // ✅ Redirect to homepage after login
     }
+    
   }, [isAuthenticated, navigate]);
 
   // Validate form inputs
@@ -54,6 +56,7 @@ const Login = () => {
 
     try {
       await dispatch(loginUser(loginData)).unwrap();
+       dispatch(setCredentials({ token: token }));
       alert('Login successful!');
       setLoginData({ email: '', password: '' });
       setFormErrors({});

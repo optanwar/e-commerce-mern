@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:4000/api/v1', // Replace with your base URL
+  baseURL: 'http://localhost:4000/api/v1', 
+    withCredentials: true, /// Replace with your base URL
   maxContentLength: Infinity,
     maxBodyLength: Infinity
 });
