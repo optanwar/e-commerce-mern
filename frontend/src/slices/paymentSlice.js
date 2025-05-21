@@ -22,7 +22,6 @@ export const processPayment = createAsyncThunk(
 
       return response.data; // e.g. client_secret or payment confirmation
     } catch (error) {
-      // error.response?.data.message is typical axios error format
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }

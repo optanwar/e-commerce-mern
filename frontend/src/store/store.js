@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage'; // Uses localStorage by default
 import productReducer from '../slices/productSlice';
 import authReducer from '../slices/authSlice';
 import cartReducer from '../slices/cartSlice';
+import paymentReducer from '../slices/paymentSlice';
 
 
 // Persist config: Persist both 'user' and 'cart' slices
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   products: productReducer, // Product state is NOT persisted
   auth: authReducer,
   cart: cartReducer, // Cart state is NOT persisted
+  payment: paymentReducer, // Payment state is NOT persisted
 
 });
 
