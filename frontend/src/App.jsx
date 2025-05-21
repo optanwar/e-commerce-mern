@@ -7,10 +7,12 @@ import Footer from "./layout/Footer";
 import { route } from "./routes";
 import axiosInstance from './axios/axiosInstance'
 import { useSelector } from "react-redux";
-
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 const App = () => {
-const [stripeApiKey, setStripeApiKey] = useState("");
+  const [stripeApiKey, setStripeApiKey] = useState("");
+  const [stripePromise, setStripePromise] = useState(stripeApiKey);
   const { token } = useSelector((state) => state.auth);
 
 
@@ -33,9 +35,8 @@ const [stripeApiKey, setStripeApiKey] = useState("");
 
   fetchKey();
 }, [token]);
-console.log("stripeApiKey:", stripeApiKey);
 
-  
+
 
   return (
     <div>
@@ -46,13 +47,32 @@ console.log("stripeApiKey:", stripeApiKey);
         <Navbar />
 
         {/* Route Configuration */}
-        <Suspense fallback={<div><Loader /></div>}>
+         <Suspense fallback={<div><Loader /></div>}>
+          {
+            stripePromise ? (
+              <Elements stripe={stripePromise}>
+                <Routes>
+                  {route.map(({ id, path, component: Component }) => (
+                    <Route key={id} path={path} element={<Component />} />
+                  ))}
+                </Routes>
+              </Elements>
+            ) : (
+              <Routes>
+                {route.map(({ id, path, component: Component }) => (
+                  <Route key={id} path={path} element={<Component />} />
+                ))}
+              </Routes>
+            )
+          }
+        </Suspense>
+        {/* <Suspense fallback={<div><Loader /></div>}>
           <Routes>
             {route.map(({ id, path, component: Component }) => (
               <Route key={id} path={path} element={<Component />} />
             ))}
           </Routes>
-        </Suspense>
+        </Suspense> */}
         <Footer/>
       </Router>
     </div>
