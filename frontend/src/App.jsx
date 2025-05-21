@@ -17,7 +17,7 @@ const App = () => {
 
 
   useEffect(() => {
-  if (!token) return; // do nothing if token hasn't rehydrated
+  if (!token) return;
 
   async function fetchKey() {
     try {
@@ -27,7 +27,9 @@ const App = () => {
         },
       });
 
-      setStripeApiKey(response.data.stripeApiKey);
+      const key = response.data.stripeApiKey;
+      setStripeApiKey(key);
+      setStripePromise(loadStripe(key)); // ✅ FIX HERE
     } catch (error) {
       console.error("Error fetching Stripe key:", error);
     }

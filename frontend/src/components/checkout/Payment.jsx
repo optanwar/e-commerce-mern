@@ -4,6 +4,7 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
+import { useSelector } from 'react-redux';
 
 const CARD_OPTIONS = {
   style: {
@@ -26,6 +27,9 @@ const Payment = ({ onComplete }) => {
   const elements = useElements();
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState(null);
+  const { totalAmount } = useSelector((state) => state.cart);
+   const { token } = useSelector((state) => state.auth);
+  console.log(token,55)
 
   const handlePayment = async (e) => {
     e.preventDefault();
@@ -36,14 +40,13 @@ const Payment = ({ onComplete }) => {
     const cardElement = elements.getElement(CardElement);
 
     try {
-      // Create Payment Intent on the server and retrieve client_secret
       const response = await fetch('http://localhost:4000/api/v1/payment/process', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // or Redux token
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ amount: 2000 }), // $20.00
+        body: JSON.stringify({ amount: Math.round(totalAmount * 100) }), // Convert to cents
       });
 
       const { client_secret } = await response.json();
@@ -71,24 +74,27 @@ const Payment = ({ onComplete }) => {
 
   return (
     <div className="max-w-md mx-auto p-4 shadow rounded bg-white">
-      <h2 className="text-xl font-semibold mb-4">💳 Secure Payment</h2>
+  <h2 className="text-xl font-semibold mb-2">💳 Secure Payment</h2>
 
-      <form onSubmit={handlePayment}>
-        <div className="mb-4 border p-2 rounded">
-          <CardElement options={CARD_OPTIONS} />
-        </div>
-
-        {error && <p className="text-red-500 mb-2">{error}</p>}
-
-        <button
-          type="submit"
-          disabled={!stripe || processing}
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
-        >
-          {processing ? 'Processing...' : 'Complete Payment'}
-        </button>
-      </form>
+  {/* Display total amount */}
+ 
+  <form onSubmit={handlePayment}>
+    <div className="mb-4 border p-2 rounded">
+      <CardElement options={CARD_OPTIONS} />
     </div>
+
+    {error && <p className="text-red-500 mb-2">{error}</p>}
+
+    <button
+      type="submit"
+      disabled={!stripe || processing}
+      className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+    >
+      {processing ? 'Processing...' : `Pay $${totalAmount.toFixed(2)}`}
+    </button>
+  </form>
+</div>
+
   );
 };
 
