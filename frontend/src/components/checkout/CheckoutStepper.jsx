@@ -1,5 +1,6 @@
 import React, { useState, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const ShippingDetails = lazy(() => import('./ShippingDetails'));
 const ConfirmOrder = lazy(() => import('./ConfirmOrder'));
@@ -40,17 +41,17 @@ const CheckoutStepper = () => {
   };
 
   const handleBack = () => setActiveStep((prev) => prev - 1);
-  const handleReset = () => {
-    setActiveStep(0);
-    setFormData({
-      fullName: '',
-      email: '',
-      address: '',
-      city: '',
-      postalCode: '',
-    });
-    setErrors({});
-  };
+  // const handleReset = () => {
+  //   setActiveStep(0);
+  //   setFormData({
+  //     fullName: '',
+  //     email: '',
+  //     address: '',
+  //     city: '',
+  //     postalCode: '',
+  //   });
+  //   setErrors({});
+  // };
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -101,12 +102,18 @@ const CheckoutStepper = () => {
                 <div className="text-center">
                   <h2 className="text-lg font-semibold mb-2">🎉 Order Completed!</h2>
                   <p className="mb-4">Thank you for your purchase.</p>
-                  <button
+                  <Link to="/my-orders"
+                    
+                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  >
+                    My Orders
+                  </Link>
+                  {/* <button
                     onClick={handleReset}
                     className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                   >
-                    Start Over
-                  </button>
+                    My Orders
+                  </button> */}
                 </div>
               )}
             </motion.div>
