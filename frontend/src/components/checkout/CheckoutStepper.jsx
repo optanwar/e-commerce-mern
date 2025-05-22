@@ -1,6 +1,8 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState, lazy, Suspense, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { createOrder, resetOrderState } from '../../slices/orderSlice';
 
 const ShippingDetails = lazy(() => import('./ShippingDetails'));
 const ConfirmOrder = lazy(() => import('./ConfirmOrder'));
@@ -9,6 +11,9 @@ const Payment = lazy(() => import('./Payment'));
 const steps = ['Shipping Details', 'Confirm Order', 'Payment'];
 
 const CheckoutStepper = () => {
+  const dispatch = useDispatch();
+  const { loading, success, error } = useSelector((state) => state.order);
+
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -35,24 +40,6 @@ const CheckoutStepper = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleNext = () => {
-    if (activeStep === 0 && !validateStep()) return;
-    setActiveStep((prev) => prev + 1);
-  };
-
-  const handleBack = () => setActiveStep((prev) => prev - 1);
-  // const handleReset = () => {
-  //   setActiveStep(0);
-  //   setFormData({
-  //     fullName: '',
-  //     email: '',
-  //     address: '',
-  //     city: '',
-  //     postalCode: '',
-  //   });
-  //   setErrors({});
-  // };
-
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -62,6 +49,53 @@ const CheckoutStepper = () => {
       ...prev,
       [e.target.name]: '',
     }));
+  };
+
+  const handleNext = () => {
+    if (activeStep === 0 && !validateStep()) return;
+
+    if (activeStep === steps.length - 1) {
+      const token = localStorage.getItem('token'); // Adjust as needed
+
+      const orderData = {
+        shippingInfo: {
+          address: formData.address,
+          city: formData.city,
+          state: 'NY',
+          country: 'USA',
+          pinCode: parseInt(formData.postalCode),
+          phoneNo: 1234567890,
+        },
+        orderItems: [
+          {
+            name: 'Wireless Headphones',
+            price: 99.99,
+            quantity: 2,
+            image: 'https://example.com/headphones.jpg',
+            product: '67e4cdbdce2cf528f7980da5',
+          },
+        ],
+        paymentInfo: {
+          id: 'pi_123456789',
+          status: 'Paid',
+        },
+      };
+
+      dispatch(createOrder({ orderData, token }));
+    } else {
+      setActiveStep((prev) => prev + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (success) {
+      setActiveStep(steps.length);
+      dispatch(resetOrderState());
+    }
+  }, [success, dispatch]);
+
+  const handleBack = () => {
+    if (activeStep > 0) setActiveStep((prev) => prev - 1);
   };
 
   return (
@@ -94,7 +128,11 @@ const CheckoutStepper = () => {
               transition={{ duration: 0.3 }}
             >
               {activeStep === 0 && (
-                <ShippingDetails formData={formData} errors={errors} handleChange={handleChange} />
+                <ShippingDetails
+                  formData={formData}
+                  errors={errors}
+                  handleChange={handleChange}
+                />
               )}
               {activeStep === 1 && <ConfirmOrder formData={formData} />}
               {activeStep === 2 && <Payment onComplete={handleNext} />}
@@ -102,24 +140,25 @@ const CheckoutStepper = () => {
                 <div className="text-center">
                   <h2 className="text-lg font-semibold mb-2">🎉 Order Completed!</h2>
                   <p className="mb-4">Thank you for your purchase.</p>
-                  <Link to="/my-orders"
-                    
+                  <Link
+                    to="/my-orders"
                     className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                   >
                     My Orders
                   </Link>
-                  {/* <button
-                    onClick={handleReset}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                  >
-                    My Orders
-                  </button> */}
                 </div>
               )}
             </motion.div>
           </AnimatePresence>
         </Suspense>
       </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="mt-4 text-red-600 text-center font-semibold">
+          {error}
+        </div>
+      )}
 
       {/* Navigation */}
       {activeStep < steps.length && (
@@ -133,9 +172,14 @@ const CheckoutStepper = () => {
           </button>
           <button
             onClick={handleNext}
+            disabled={loading}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
-            {activeStep === steps.length - 1 ? 'Complete Order' : 'Next'}
+            {loading
+              ? 'Processing...'
+              : activeStep === steps.length - 1
+              ? 'Complete Order'
+              : 'Next'}
           </button>
         </div>
       )}

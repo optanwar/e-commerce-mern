@@ -10,12 +10,20 @@ export const fetchStripeApiKey = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       });
 
+      console.log('Stripe API response:', response);
+
       if (response.status !== 200) {
         return rejectWithValue('Failed to fetch Stripe API key');
       }
 
+      // Defensive: check if stripeApiKey exists in response data
+      if (!response.data || !response.data.stripeApiKey) {
+        return rejectWithValue('Stripe API key missing in response');
+      }
+
       return response.data.stripeApiKey;
     } catch (error) {
+      console.error('Error fetching Stripe API key:', error);
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }

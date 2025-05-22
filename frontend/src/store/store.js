@@ -7,6 +7,7 @@ import authReducer from '../slices/authSlice';
 import cartReducer from '../slices/cartSlice';
 import paymentReducer from '../slices/paymentSlice';
 import stripeReducer from '../slices/stripeSlice';
+import orderReducer from '../slices/orderSlice';
 
 
 // Persist config: Persist both 'user' and 'cart' slices
@@ -24,6 +25,8 @@ const rootReducer = combineReducers({
   cart: cartReducer, // Cart state is NOT persisted
   payment: paymentReducer, // Payment state is NOT persisted
   stripe: stripeReducer, // Stripe state is NOT persisted
+  order: orderReducer, // Order state is NOT persisted
+
 
 });
 

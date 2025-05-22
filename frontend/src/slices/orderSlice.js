@@ -6,7 +6,7 @@ export const createOrder = createAsyncThunk(
   'order/createOrder',
   async ({ orderData, token }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post('/order/create', orderData, {
+      const response = await axiosInstance.post('/order/new', orderData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
