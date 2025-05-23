@@ -45,6 +45,28 @@ export const getOrderDetails = createAsyncThunk(
   }
 );
 
+// Async thunk to fetch current user's orders
+export const getMyOrders = createAsyncThunk(
+  'order/getMyOrders',
+  async (token, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get('/orders/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status !== 200) {
+        return rejectWithValue('Failed to fetch user orders');
+      }
+
+      return response.data; // return user's orders list
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 const orderSlice = createSlice({
   name: 'order',
   initialState: {
@@ -53,6 +75,7 @@ const orderSlice = createSlice({
     error: null,
     order: null,
     orderDetails: null,
+    myOrders: [],
   },
   reducers: {
     resetOrderState: (state) => {
@@ -61,6 +84,7 @@ const orderSlice = createSlice({
       state.error = null;
       state.order = null;
       state.orderDetails = null;
+      state.myOrders = [];
     },
   },
   extraReducers: (builder) => {
@@ -92,6 +116,20 @@ const orderSlice = createSlice({
         state.orderDetails = action.payload;
       })
       .addCase(getOrderDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || action.error.message;
+      })
+
+      // Get current user's orders
+      .addCase(getMyOrders.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getMyOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.myOrders = action.payload;
+      })
+      .addCase(getMyOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || action.error.message;
       });

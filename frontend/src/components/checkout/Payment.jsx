@@ -22,7 +22,6 @@ const CARD_OPTIONS = {
 const Payment = ({ onComplete }) => {
   const stripe = useStripe();
   const elements = useElements();
-
   const dispatch = useDispatch();
 
   const { totalAmount } = useSelector((state) => state.cart);

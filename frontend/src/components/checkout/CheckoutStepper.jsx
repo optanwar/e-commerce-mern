@@ -2,7 +2,7 @@ import React, { useState, lazy, Suspense, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createOrder, resetOrderState } from '../../slices/orderSlice';
+import { createOrder, resetOrderState } from '../../slices/orderSlice'; // Adjust the import path as needed
 
 const ShippingDetails = lazy(() => import('./ShippingDetails'));
 const ConfirmOrder = lazy(() => import('./ConfirmOrder'));
@@ -13,6 +13,8 @@ const steps = ['Shipping Details', 'Confirm Order', 'Payment'];
 const CheckoutStepper = () => {
   const dispatch = useDispatch();
   const { loading, success, error } = useSelector((state) => state.order);
+  const { items, totalAmount, totalQuantity } = useSelector((state) => state.cart);
+
 
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
@@ -51,6 +53,8 @@ const CheckoutStepper = () => {
     }));
   };
 
+  console.log(items, 'items');
+
   const handleNext = () => {
     if (activeStep === 0 && !validateStep()) return;
 
@@ -66,15 +70,13 @@ const CheckoutStepper = () => {
           pinCode: parseInt(formData.postalCode),
           phoneNo: 1234567890,
         },
-        orderItems: [
-          {
-            name: 'Wireless Headphones',
-            price: 99.99,
-            quantity: 2,
-            image: 'https://example.com/headphones.jpg',
-            product: '67e4cdbdce2cf528f7980da5',
-          },
-        ],
+        orderItems: items.map(item => ({
+          name: item.name,
+          price: item.price,
+          quantity:item.quantity,
+          image: 'https://example.com/headphones.jpg',
+          product: item._id,
+        })),
         paymentInfo: {
           id: 'pi_123456789',
           status: 'Paid',
@@ -105,9 +107,8 @@ const CheckoutStepper = () => {
         {steps.map((label, idx) => (
           <div key={label} className="flex-1 text-center">
             <div
-              className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center text-white ${
-                activeStep >= idx ? 'bg-blue-600' : 'bg-gray-300'
-              }`}
+              className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center text-white ${activeStep >= idx ? 'bg-blue-600' : 'bg-gray-300'
+                }`}
             >
               {idx + 1}
             </div>
@@ -178,8 +179,8 @@ const CheckoutStepper = () => {
             {loading
               ? 'Processing...'
               : activeStep === steps.length - 1
-              ? 'Complete Order'
-              : 'Next'}
+                ? 'Complete Order'
+                : 'Next'}
           </button>
         </div>
       )}
