@@ -60,6 +60,12 @@ const CheckoutStepper = () => {
 
     if (activeStep === steps.length - 1) {
       const token = localStorage.getItem('token'); // Adjust as needed
+const itemPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
+console.log(itemPrice, 'itemPrice');
+const taxPrice = (itemPrice * 0.1).toFixed(2);
+const shippingPrice = itemPrice > 100 ? '0.00' : '10.00';
+const totalPrice = (parseFloat(itemPrice) + parseFloat(taxPrice) + parseFloat(shippingPrice)).toFixed(2);
+console.log(itemPrice, taxPrice, shippingPrice, totalPrice,5545);
 
       const orderData = {
         shippingInfo: {
@@ -81,6 +87,10 @@ const CheckoutStepper = () => {
           id: 'pi_123456789',
           status: 'Paid',
         },
+        itemPrice,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
       };
 
       dispatch(createOrder({ orderData, token }));

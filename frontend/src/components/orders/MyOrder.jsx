@@ -1,70 +1,89 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrderDetails , getMyOrders  } from '../../slices/orderSlice'; // adjust path if needed
+import { getMyOrders } from '../../slices/orderSlice';
 import { Link } from 'react-router-dom';
 
 const MyOrder = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  const { loading, error, orderDetails , myOrders} = useSelector((state) => state.order);
-  console.log(myOrders.orders,55)
+  const { loading, error, myOrders } = useSelector((state) => state.order);
 
   useEffect(() => {
-    // Example orderId, you can map through user's orders if you fetch them all
     dispatch(getMyOrders());
   }, [dispatch, token]);
 
   return (
-    <div className="max-w-5xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">My Orders</h1>
+    <div className="max-w-6xl mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold text-gray-800 mb-8 border-b pb-2">My Orders</h1>
 
       {loading ? (
-        <div className="text-center py-10">Loading orders...</div>
+        <div className="text-center text-gray-500 py-10">Loading your orders...</div>
       ) : error ? (
-        <div className="text-red-500 text-center">{error}</div>
+        <div className="text-red-500 text-center py-10">{error}</div>
+      ) : myOrders?.orders?.length === 0 ? (
+        <div className="text-center text-gray-500 py-10">You haven not placed any orders yet.</div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-8">
           {myOrders?.orders?.map((order) => (
-            <div key={order._id} className="border rounded-lg shadow-sm p-4">
-              <div className="flex justify-between items-center mb-2">
-                <div>
-                  <p className="text-sm text-gray-600">Order ID:</p>
-                  <p className="font-semibold">{order._id}</p>
+            <div
+              key={order._id}
+              className="border border-gray-200 rounded-lg shadow hover:shadow-md transition bg-white"
+            >
+              <div className="p-6 flex flex-col lg:flex-row lg:justify-between gap-6">
+                {/* Left: Products */}
+                <div className="flex-1 space-y-4">
+                  {order?.orderItems?.map((item) => (
+                    <div key={item.product} className="flex items-center gap-4">
+                      <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBAhotm6qZzexJdG8qyL77o45u6VdTeLwNnG29mZxDF_aG_A4e-FiFckeY5xFxYeOV1TM&usqp=CAU"
+                        alt={item.name}
+                        className="w-20 h-20 object-cover rounded-md border"
+                      />
+                      <div>
+                        <p className="text-sm font-medium text-gray-800">{item.name}</p>
+                        <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="text-right">
-                  <p className="text-sm text-gray-600">Date:</p>
-                  <p className="font-medium">{new Date(order.createdAt).toLocaleDateString()}</p>
+
+                {/* Right: Order Info */}
+                <div className="w-full lg:w-64 flex flex-col gap-3 text-sm text-gray-700">
+                  <div>
+                    <span className="text-gray-500">Order ID:</span>
+                    <p className="break-all font-medium">{order._id}</p>
+                  </div>
+                  <div>
+                    <span className="text-gray-500">Placed on:</span>
+                    <p>{new Date(order.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <div>
+                    <span className="text-gray-500">Total Amount:</span>
+                    <p className="text-lg font-semibold text-gray-900">
+                      ${(order.totalPrice / 100).toFixed(2)}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-gray-500">Status:</span>
+                    <span
+                      className={`ml-1 inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                        order.orderStatus === 'Delivered'
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-yellow-100 text-yellow-700'
+                      }`}
+                    >
+                      {order.orderStatus}
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-600">Total Amount:</p>
-                  <p className="font-semibold">${(order.totalPrice / 100).toFixed(2)}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Status:</p>
-                  <span
-                    className={`px-2 py-1 rounded text-sm font-medium ${
-                      order.orderStatus
- === 'Delivered'
-                        ? 'bg-green-100 text-green-600'
-                        : 'bg-yellow-100 text-yellow-600'
-                    }`}
-                  >
-                    {order.orderStatus
-}
-                  </span>
-                </div>
-              </div>
-
-
-              <div className="mt-4 text-right">
+              <div className="bg-gray-50 px-6 py-3 text-right">
                 <Link
                   to={`/order/${order._id}`}
-                  className="inline-block text-sm text-blue-600 hover:underline"
+                  className="text-sm font-medium text-blue-600 hover:underline"
                 >
-                  View Details →
+                  View Order Details →
                 </Link>
               </div>
             </div>
