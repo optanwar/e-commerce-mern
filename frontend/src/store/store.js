@@ -14,7 +14,7 @@ import orderReducer from '../slices/orderSlice';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth',"products", "cart"], // Persist both 'user' and 'cart' slices
+  whitelist: ['auth',"products", "cart","stripe", "order" ], // Persist both 'user' and 'cart' slices
 };
 
 // Combine all reducers
