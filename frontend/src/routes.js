@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const Home = React.lazy(() => import("./components/home/Home.jsx"));
 const About = React.lazy(() => import("./components/about/About.jsx"));
 const ProductsDetails = React.lazy(() => import("./components/products/ProductsDetails.jsx"));
@@ -12,6 +13,8 @@ const Blog = React.lazy(()=> import("./components/blog/Blog.jsx"));
 const Cart = React.lazy(()=> import("./components/Cart/Cart.jsx"));
 const CheckoutStepper = React.lazy(()=> import("./components/checkout/CheckoutStepper.jsx"));
 const MyOrders = React.lazy(()=> import("./components/orders/MyOrder.jsx"));
+const OrderDetails = React.lazy(()=> import("./components/orders/OrderDetails.jsx"));
+
 
 
 export const route = [
@@ -98,6 +101,12 @@ export const route = [
     name: "Blog",
     path: "/blog",
     component: Blog
+  },
+  {
+    id: 15,
+    name: "Order Details",
+    path: "/order/:id",    
+    component: OrderDetails
   }
  
 ];

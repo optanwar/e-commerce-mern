@@ -60,12 +60,16 @@ const CheckoutStepper = () => {
 
     if (activeStep === steps.length - 1) {
       const token = localStorage.getItem('token'); // Adjust as needed
-const itemPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
-console.log(itemPrice, 'itemPrice');
-const taxPrice = (itemPrice * 0.1).toFixed(2);
-const shippingPrice = itemPrice > 100 ? '0.00' : '10.00';
-const totalPrice = (parseFloat(itemPrice) + parseFloat(taxPrice) + parseFloat(shippingPrice)).toFixed(2);
-console.log(itemPrice, taxPrice, shippingPrice, totalPrice,5545);
+// Step 1: Keep itemPrice as a number until the end
+const itemPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+console.log(itemPrice.toFixed(2), 'itemPrice');
+
+// Step 2: Calculate tax and shipping
+const taxPrice = +(itemPrice * 0.1).toFixed(2); // keep as number
+const shippingPrice = itemPrice > 100 ? 0.00 : 10.00;
+
+// Step 3: Calculate total
+const totalPrice = (itemPrice + taxPrice + shippingPrice).toFixed(2);
 
       const orderData = {
         shippingInfo: {

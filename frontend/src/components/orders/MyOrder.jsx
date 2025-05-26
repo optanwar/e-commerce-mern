@@ -60,7 +60,7 @@ const MyOrder = () => {
                   <div>
                     <span className="text-gray-500">Total Amount:</span>
                     <p className="text-lg font-semibold text-gray-900">
-                      ${(order.totalPrice / 100).toFixed(2)}
+                      ${(order.totalPrice).toFixed(2)}
                     </p>
                   </div>
                   <div>

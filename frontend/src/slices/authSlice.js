@@ -82,7 +82,7 @@ const authSlice = createSlice({
     setCredentials: (state, action) => {
   state.token = action.payload.token;
   state.user = action.payload.user || null;
-  state.isAuthenticated = !!action.payload.token;
+  // state.isAuthenticated = !!action.payload.token;
 }
 
   },
