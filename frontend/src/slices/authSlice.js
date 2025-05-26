@@ -80,8 +80,11 @@ const authSlice = createSlice({
       state.error = null;
     }, 
     setCredentials: (state, action) => {
-      state.token = action.payload.token;
-    },
+  state.token = action.payload.token;
+  state.user = action.payload.user || null;
+  state.isAuthenticated = !!action.payload.token;
+}
+
   },
   extraReducers: (builder) => {
     builder
@@ -107,6 +110,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
+        console.log("Login fulfilled:", action.payload);
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;

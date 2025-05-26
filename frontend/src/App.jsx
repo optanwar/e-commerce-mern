@@ -9,13 +9,24 @@ import { useSelector, useDispatch } from "react-redux";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { fetchStripeApiKey } from './slices/stripeSlice'; // import the new thunk
-
+import { setCredentials } from './slices/authSlice';
 const App = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { apiKey, loading } = useSelector((state) => state.stripe);
 
   const [stripePromise, setStripePromise] = useState(null);
+
+
+  useEffect(() => {
+  const authData = JSON.parse(localStorage.getItem('persist:root'))?.auth;
+  if (authData) {
+    const parsed = JSON.parse(authData);
+    if (parsed.token) {
+      dispatch(setCredentials({ token: parsed.token }));
+    }
+  }
+}, [dispatch]);
 
   useEffect(() => {
     if (token) {
@@ -28,6 +39,8 @@ const App = () => {
       setStripePromise(loadStripe(apiKey));
     }
   }, [apiKey]);
+
+  
 
   if (loading) {
     return <Loader />;

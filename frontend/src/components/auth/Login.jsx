@@ -13,7 +13,7 @@ const Login = () => {
   const [formErrors, setFormErrors] = useState({});
   const [resetError, setResetError] = useState('');
 
-  const { loading, error, isAuthenticated, token} = useSelector((state) => state.auth);
+  const { loading, error, isAuthenticated, token , user} = useSelector((state) => state.auth);
   console.log('token:', token);
   
 
@@ -56,7 +56,7 @@ const Login = () => {
 
     try {
       await dispatch(loginUser(loginData)).unwrap();
-       dispatch(setCredentials({ token: token }));
+       dispatch(setCredentials({ token: token , user: user }));
       alert('Login successful!');
       setLoginData({ email: '', password: '' });
       setFormErrors({});
