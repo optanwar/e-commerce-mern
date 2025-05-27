@@ -4,6 +4,7 @@
 const express = require('express')
 const app = express()
 const dotenv = require("dotenv");
+const path = require('path');
 
 const cookieParser = require('cookie-parser');
 const errorMiddleware = require('./middleware/error')
@@ -38,6 +39,14 @@ app.use('/api/v1', productsRoute);
 app.use("/api/v1", userRoute)
 app.use("/api/v1", orderRoute);
 app.use("/api/v1", paymentRoute);
+
+
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
 
 
 // Middleware to handle errors
